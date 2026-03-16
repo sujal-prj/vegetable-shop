@@ -378,30 +378,197 @@ input:focus,textarea:focus,select:focus{border-color:var(--plight)}
 .center-btn{text-align:center;margin-top:38px}
 .product-name .hindi{font-size:.76rem;font-weight:500;color:var(--primary);opacity:.85}
 
-/* Responsive */
-@media(max-width:1024px){.footer-inner{grid-template-columns:1fr 1fr;gap:28px}.hero-visual{display:none}}
+/* ============================================================
+   RESPONSIVE — Mobile First
+   The bottom nav bar is the key fix for mobile
+============================================================ */
+
+@media(max-width:1024px){
+  .footer-inner{grid-template-columns:1fr 1fr;gap:28px}
+  .hero-visual{display:none}
+}
+
 @media(max-width:768px){
-  .nav-links{display:none;flex-direction:column;position:absolute;top:70px;left:0;right:0;background:#fff;border-bottom:1.5px solid var(--border);padding:15px;gap:3px;box-shadow:var(--shadow)}
+  /* ── Navbar mobile ── */
+  .nav-inner{height:60px;padding:0 14px;gap:10px}
+  .logo-text{font-size:1.15rem}
+  .logo-icon{font-size:1.7rem}
+
+  /* Hide desktop nav links — shown via hamburger */
+  .nav-links{
+    display:none;flex-direction:column;
+    position:fixed;top:60px;left:0;right:0;
+    background:#fff;border-bottom:1.5px solid var(--border);
+    padding:12px;gap:4px;
+    box-shadow:0 8px 24px rgba(0,0,0,.1);
+    z-index:999;
+  }
   .nav-links.open{display:flex}
+  .nav-link{font-size:.95rem;padding:12px 16px;border-radius:10px;font-weight:600}
+
+  /* Hide search bar on mobile — too much space */
+  .search-bar{display:none}
+
+  /* Hide user name text on mobile */
+  .nav-user-name{display:none}
+
+  /* Show hamburger */
   .hamburger{display:flex}
-  .search-bar input{width:100px}
-  .shop-layout{flex-direction:column}
+
+  /* Make icon buttons smaller on mobile */
+  .icon-btn{width:38px;height:38px;font-size:.9rem}
+  .nav-user-btn{padding:0 10px}
+
+  /* Keep logout and cart visible but compact */
+  .nav-actions{gap:6px}
+
+  /* Page padding for mobile — bottom nav takes 70px */
+  .page{padding-top:60px;padding-bottom:76px;min-height:100vh}
+
+  /* Layouts stack vertically */
+  .shop-layout{flex-direction:column;padding-top:20px;padding-bottom:20px}
   .sidebar{width:100%;position:static;flex-direction:row;flex-wrap:wrap}
   .filter-box{flex:1;min-width:230px}
-  .cart-layout,.checkout-layout{flex-direction:column}
+  .cart-layout,.checkout-layout{flex-direction:column;padding:16px 16px 20px}
   .cart-summary-box,.checkout-order-box{width:100%;position:static}
-  .hero-btns{flex-direction:column}
+
+  /* Hero */
+  .hero{padding:30px 16px;min-height:auto}
+  .hero-btns{flex-direction:column;gap:10px}
   .hero-stats{gap:18px}
+  .hero-legacy-banner{font-size:.78rem;padding:7px 13px}
+
+  /* Steps */
   .steps-grid{flex-direction:column;align-items:center}
   .step-divider{transform:rotate(90deg)}
+
+  /* Offers */
   .offer-card.big{grid-column:span 1}
+  .offers-grid{grid-template-columns:1fr}
+
+  /* Footer */
   .footer-inner{grid-template-columns:1fr;gap:22px}
-  .newsletter-box{flex-direction:column;text-align:center}
+  .newsletter-box{flex-direction:column;text-align:center;padding:28px 20px}
+
+  /* Forms */
   .form-row{grid-template-columns:1fr}
+
+  /* Contact */
+  .contact-layout{flex-direction:column;padding:20px 16px}
+
+  /* About */
+  .about-layout{gap:28px;padding:28px 0}
+
+  /* Profile */
+  .profile-layout{flex-direction:column;padding:20px 0}
+
+  /* Page heroes */
+  .page-hero{padding:36px 16px 24px}
+  .page-hero h1{font-size:1.7rem}
 }
+
 @media(max-width:480px){
-  .page-hero h1{font-size:1.65rem}
-  .hero-title{font-size:1.95rem}
-  .products-grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:13px}
-  .product-emoji{font-size:3.4rem}
+  .hero-title{font-size:1.8rem}
+  .products-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .product-emoji{font-size:3.2rem}
+  .product-info{padding:12px}
+  .product-name{font-size:.88rem}
+  .product-price{font-size:1rem}
+  .product-desc{font-size:.72rem}
+  .flash-grid{grid-template-columns:1fr}
+  .categories-grid{grid-template-columns:repeat(3,1fr);gap:10px}
+  .cat-card{padding:18px 10px}
+  .cat-icon{font-size:2rem}
+  .cat-card h3{font-size:.8rem}
+  .cat-card p{font-size:.68rem}
+  .testimonials-grid{grid-template-columns:1fr}
+  .testi-card{padding:20px}
+  .container{padding:0 14px}
+}
+
+/* ============================================================
+   BOTTOM NAVIGATION BAR — Mobile only
+   This is the KEY FIX — gives mobile users always-visible
+   access to Home, Shop, Cart, Contact, Profile
+============================================================ */
+.bottom-nav{
+  display:none; /* hidden on desktop */
+}
+
+@media(max-width:768px){
+  .bottom-nav{
+    display:flex;
+    position:fixed;
+    bottom:0;left:0;right:0;
+    height:68px;
+    background:#fff;
+    border-top:1.5px solid var(--border);
+    box-shadow:0 -4px 20px rgba(0,0,0,.08);
+    z-index:998;
+    align-items:center;
+    justify-content:space-around;
+    padding:0 4px;
+  }
+  .bn-item{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:3px;
+    flex:1;
+    padding:8px 4px;
+    cursor:pointer;
+    border:none;
+    background:none;
+    color:var(--muted);
+    font-family:var(--font-b);
+    font-size:.62rem;
+    font-weight:600;
+    transition:all .2s;
+    border-radius:10px;
+    position:relative;
+  }
+  .bn-item i{font-size:1.25rem;transition:all .2s}
+  .bn-item.active{color:var(--primary)}
+  .bn-item.active i{transform:scale(1.15)}
+  .bn-item:hover{color:var(--primary)}
+  .bn-badge{
+    position:absolute;
+    top:4px;right:calc(50% - 18px);
+    background:var(--orange);
+    color:#fff;
+    font-size:.58rem;
+    font-weight:800;
+    width:17px;height:17px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    border:2px solid #fff;
+  }
+  /* Cart bn item special style */
+  .bn-cart{
+    background:var(--primary);
+    color:#fff!important;
+    border-radius:50%;
+    width:52px;height:52px;
+    flex:none;
+    margin-top:-18px;
+    box-shadow:0 4px 16px rgba(45,122,34,.35);
+    font-size:.6rem;
+  }
+  .bn-cart i{font-size:1.4rem}
+  .bn-cart.active{background:var(--pdark)}
+  /* Mobile search bar — full width below navbar */
+  .mobile-search{
+    display:flex;
+    align-items:center;
+    background:var(--bg-l);
+    border:1.5px solid var(--border);
+    border-radius:30px;
+    padding:10px 16px;
+    gap:8px;
+    margin:12px 14px 0;
+  }
+  .mobile-search i{color:var(--muted);font-size:.9rem;flex-shrink:0}
+  .mobile-search input{border:none;background:transparent;padding:0;font-size:.92rem;width:100%}
+  .mobile-search input:focus{border:none;box-shadow:none}
 }
