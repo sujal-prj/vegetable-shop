@@ -306,7 +306,7 @@ ${note?`📝 Note: ${note}`:''}
 
 ✅ Payment on delivery. Please confirm! 🙏`;
 
-  window.open(`https://wa.me/919875165487?text=${encodeURIComponent(msg)}`, '_blank');
+  window.open(`https://wa.me/919876543210?text=${encodeURIComponent(msg)}`, '_blank');
   showToast('🎉 Opening WhatsApp!', 'success');
   // Save order record
   saveOrderRecord(name, phone, address, cart, total);
@@ -526,7 +526,7 @@ function sendContactMsg() {
   const text  = document.getElementById('msgText')?.value.trim();
   if (!name||!text) { showToast('⚠️ Please fill all fields','error'); return; }
   const msg = `Hi Azad Bhai! 👋\n\nMy name is ${name}${phone?' ('+phone+')':''} .\n\n${text}\n\nThank you!`;
-  window.open(`https://wa.me/919875165487?text=${encodeURIComponent(msg)}`,'_blank');
+  window.open(`https://wa.me/919876543210?text=${encodeURIComponent(msg)}`,'_blank');
 }
 
 // ── Profile ──────────────────────────────────────────────────────
@@ -548,3 +548,49 @@ function showToast(msg, type='') {
   clearTimeout(window._tt);
   window._tt = setTimeout(() => t.className='toast', 2800);
 }
+
+// ── Bottom Navigation Bar (Mobile) ───────────────────────────────
+function bnNav(page) {
+  // Navigate to page
+  showPage(page);
+  // Update active state on bottom nav
+  document.querySelectorAll('.bn-item').forEach(b => b.classList.remove('active'));
+  const active = document.getElementById('bn-' + page);
+  if (active) active.classList.add('active');
+  // Hide mobile search when not on home/shop
+  const ms = document.getElementById('mobileSearch');
+  if (ms) ms.style.display = (page === 'home' || page === 'shop') ? 'flex' : 'none';
+}
+
+// Update bottom nav badge to match cart count
+const _origUpdateBadge = updateCartBadge;
+window.updateCartBadge = function() {
+  _origUpdateBadge();
+  const total = cart.reduce((s, i) => s + i.qty, 0);
+  const bnBadge = document.getElementById('bnBadge');
+  if (bnBadge) {
+    bnBadge.textContent = total;
+    bnBadge.style.display = total > 0 ? 'flex' : 'none';
+  }
+};
+
+// Mobile search — same as desktop search
+window.handleMobileSearch = function() {
+  const q = document.getElementById('mobileSearchInput')?.value;
+  const desktopSearch = document.getElementById('searchInput');
+  if (desktopSearch) desktopSearch.value = q;
+  handleSearch();
+};
+
+// Keep bottom nav in sync when showPage() is called from anywhere
+const _origShowPage = showPage;
+window.showPage = function(page) {
+  _origShowPage(page);
+  // Sync bottom nav active state
+  document.querySelectorAll('.bn-item').forEach(b => b.classList.remove('active'));
+  const active = document.getElementById('bn-' + page);
+  if (active) active.classList.add('active');
+  // Show/hide mobile search bar
+  const ms = document.getElementById('mobileSearch');
+  if (ms) ms.style.display = (page === 'home' || page === 'shop') ? 'flex' : 'none';
+};
