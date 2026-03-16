@@ -3,723 +3,522 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Panel – Azad Vegetable and Fruits</title>
+  <title>Azad Vegetable and Fruits – Fresh Produce Delivered Today</title>
+  <link rel="stylesheet" href="style.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <style>
-    :root{
-      --p:#2d7a22;--pd:#1e5c17;--pl:#4caf50;--acc:#8bc34a;
-      --orange:#ff6f00;--ol:#ffa726;
-      --bg:#f0f7ee;--card:#fff;--border:#d4eacf;
-      --text:#1a2e18;--muted:#6b7c69;
-      --red:#e74c3c;--blue:#3498db;--purple:#9b59b6;--teal:#1abc9c;
-      --font-h:'Playfair Display',serif;--font-b:'DM Sans',sans-serif;
-      --sh:0 2px 12px rgba(45,122,34,.08);--shl:0 8px 32px rgba(45,122,34,.14);
-      --r:14px;
-    }
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:var(--font-b);background:var(--bg);color:var(--text);display:flex;min-height:100vh}
-    a{text-decoration:none;color:inherit;cursor:pointer}
-    button{cursor:pointer;font-family:var(--font-b)}
-    input,select,textarea{font-family:var(--font-b);font-size:.92rem}
-
-    /* Sidebar */
-    .sb{width:240px;background:#0f1e0d;min-height:100vh;display:flex;flex-direction:column;position:fixed;top:0;left:0;z-index:100;transition:transform .3s}
-    .sb-logo{padding:22px 18px 15px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:9px}
-    .sb-logo span{font-size:1.75rem}
-    .sb-logo div strong{display:block;font-family:var(--font-h);font-size:.97rem;color:#fff;line-height:1.2}
-    .sb-logo div small{font-size:.68rem;color:rgba(255,255,255,.42)}
-    .sb-nav{flex:1;padding:15px 11px;display:flex;flex-direction:column;gap:3px}
-    .sb-item{display:flex;align-items:center;gap:9px;padding:11px 13px;border-radius:10px;color:rgba(255,255,255,.58);font-size:.86rem;font-weight:500;cursor:pointer;transition:all .2s}
-    .sb-item i{width:17px;text-align:center;font-size:.92rem}
-    .sb-item:hover,.sb-item.on{background:rgba(255,255,255,.08);color:#fff}
-    .sb-item.on{background:var(--p);color:#fff}
-    .sb-sec{font-size:.63rem;font-weight:700;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:1px;padding:13px 13px 5px;margin-top:5px}
-    .sb-btm{padding:15px;border-top:1px solid rgba(255,255,255,.08)}
-    .sb-user{display:flex;align-items:center;gap:9px}
-    .sb-av{width:35px;height:35px;border-radius:50%;background:var(--p);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.88rem;flex-shrink:0}
-    .sb-user div strong{display:block;font-size:.8rem;color:#fff;line-height:1.2}
-    .sb-user div span{font-size:.68rem;color:rgba(255,255,255,.48)}
-    .sb-out{background:none;border:none;color:rgba(255,255,255,.38);font-size:.93rem;cursor:pointer;padding:4px;transition:color .2s;margin-left:auto}
-    .sb-out:hover{color:#e74c3c}
-
-    /* Main */
-    .main{margin-left:240px;flex:1;min-height:100vh;padding:26px}
-    .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:26px}
-    .topbar h2{font-family:var(--font-h);font-size:1.55rem;font-weight:900}
-    .topbar p{font-size:.83rem;color:var(--muted);margin-top:1px}
-    .topbar-r{display:flex;align-items:center;gap:11px}
-    .admin-badge{display:flex;align-items:center;gap:5px;background:var(--p);color:#fff;padding:6px 13px;border-radius:20px;font-size:.8rem;font-weight:700}
-    .back-btn{display:flex;align-items:center;gap:5px;background:#fff;border:1.5px solid var(--border);padding:7px 15px;border-radius:20px;font-size:.83rem;font-weight:600;color:var(--muted);transition:all .2s}
-    .back-btn:hover{color:var(--p);border-color:var(--pl)}
-
-    /* Sections */
-    .sec{display:none}
-    .sec.on{display:block;animation:fi .3s ease}
-    @keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-
-    /* Stats */
-    .stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:16px;margin-bottom:26px}
-    .sc{background:var(--card);border-radius:var(--r);padding:20px;border:1.5px solid var(--border);box-shadow:var(--sh);position:relative;overflow:hidden}
-    .sc::after{content:'';position:absolute;top:0;right:0;width:75px;height:75px;border-radius:50%;opacity:.06;transform:translate(18px,-18px)}
-    .sc.g::after{background:#2d7a22}.sc.o::after{background:#ff6f00}.sc.b::after{background:#3498db}.sc.pu::after{background:#9b59b6}
-    .sc-icon{font-size:1.75rem;margin-bottom:9px}
-    .sc-val{font-family:var(--font-h);font-size:1.95rem;font-weight:900;color:var(--text);line-height:1}
-    .sc-lbl{font-size:.78rem;color:var(--muted);margin-top:3px;font-weight:500}
-    .sc-ch{font-size:.73rem;font-weight:700;margin-top:5px;color:#2d7a22}
-
-    /* Card */
-    .card{background:var(--card);border-radius:var(--r);border:1.5px solid var(--border);box-shadow:var(--sh);overflow:hidden;margin-bottom:22px}
-    .ch{padding:17px 20px;border-bottom:1.5px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-    .ch h3{font-size:.97rem;font-weight:800;display:flex;align-items:center;gap:7px}
-    .cb{padding:20px}
-
-    /* Buttons */
-    .btn{background:var(--p);color:#fff;border:none;padding:9px 18px;border-radius:10px;font-size:.86rem;font-weight:700;transition:all .2s;display:inline-flex;align-items:center;gap:5px}
-    .btn:hover{background:var(--pd)}
-    .btn-del{background:var(--red);color:#fff;border:none;padding:7px 13px;border-radius:8px;font-size:.8rem;font-weight:700;transition:all .2s}
-    .btn-del:hover{background:#c0392b}
-    .btn-e{background:#fff;border:1.5px solid var(--border);color:var(--p);padding:6px 12px;border-radius:8px;font-size:.8rem;font-weight:700;transition:all .2s}
-    .btn-e:hover{background:var(--bg);border-color:var(--p)}
-    .btn-save{background:#e8f8e8;color:var(--p);border:1.5px solid #b3e5b3;padding:6px 12px;border-radius:8px;font-size:.78rem;font-weight:700;transition:all .2s}
-    .btn-save:hover{background:var(--p);color:#fff}
-
-    /* Table */
-    .tw{overflow-x:auto}
-    table{width:100%;border-collapse:collapse}
-    th{text-align:left;font-size:.73rem;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:700;padding:9px 13px;border-bottom:1.5px solid var(--border);background:var(--bg)}
-    td{padding:11px 13px;border-bottom:1px solid var(--border);font-size:.86rem;vertical-align:middle}
-    tr:last-child td{border-bottom:none}
-    tr:hover td{background:#fafff9}
-    .em{font-size:1.45rem}
-    .bdg{display:inline-block;padding:2px 9px;border-radius:20px;font-size:.7rem;font-weight:700}
-    .bg{background:#e8f8e8;color:var(--p)}.bo{background:#fff3e0;color:var(--orange)}.br{background:#fde8e8;color:var(--red)}.bb{background:#e3f2fd;color:var(--blue)}.bp{background:#f3e5f5;color:var(--purple)}
-
-    /* Price input */
-    .pi{width:80px;padding:6px 9px;border:1.5px solid var(--border);border-radius:8px;font-size:.86rem;font-weight:700;color:var(--p);text-align:center}
-    .pi:focus{outline:none;border-color:var(--pl)}
-    .pi.changed{border-color:var(--orange);background:#fff8f0}
-
-    /* Charts */
-    .charts{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px}
-    .bar-wrap{display:flex;flex-direction:column;gap:7px}
-    .bar-row{display:flex;align-items:center;gap:9px;font-size:.8rem}
-    .bar-lbl{width:78px;text-align:right;color:var(--muted);font-size:.76rem;flex-shrink:0}
-    .bar-track{flex:1;background:var(--bg);border-radius:20px;height:19px;overflow:hidden}
-    .bar-fill{height:100%;border-radius:20px;background:var(--p);transition:width .8s ease;display:flex;align-items:center;padding-left:7px;color:#fff;font-size:.68rem;font-weight:700}
-    .bar-val{width:46px;text-align:right;font-weight:700;color:var(--text)}
-
-    /* Visitors */
-    .vr{display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid var(--border)}
-    .vr:last-child{border:none}
-    .vav{width:33px;height:33px;border-radius:50%;background:var(--p);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.83rem;flex-shrink:0}
-    .vi strong{display:block;font-size:.86rem}.vi span{font-size:.73rem;color:var(--muted)}
-    .vt{margin-left:auto;font-size:.73rem;color:var(--muted)}
-
-    /* Offers */
-    .oec{background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:17px;margin-bottom:13px;display:flex;align-items:flex-start;gap:13px}
-    .oi{font-size:1.95rem;flex-shrink:0}
-    .of{flex:1;display:flex;flex-direction:column;gap:7px}
-    .of input,.of select,.of textarea{padding:7px 11px;border:1.5px solid var(--border);border-radius:8px;background:#fff;outline:none;width:100%}
-    .of input:focus,.of select:focus{border-color:var(--pl)}
-    .or{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-    .oa{display:flex;gap:7px;margin-top:3px;align-items:center}
-
-    /* Add form */
-    .af{background:var(--bg);border:2px dashed var(--border);border-radius:12px;padding:20px;margin-bottom:18px}
-    .af h4{font-size:.88rem;font-weight:800;color:var(--p);margin-bottom:13px;display:flex;align-items:center;gap:5px}
-    .fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:11px}
-    .fg > div label{display:block;font-size:.73rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
-    .fg > div input,.fg > div select{width:100%;padding:8px 11px;border:1.5px solid var(--border);border-radius:8px;background:#fff;outline:none}
-    .fg > div input:focus,.fg > div select:focus{border-color:var(--pl)}
-
-    /* Activity */
-    .ai{display:flex;align-items:flex-start;gap:11px;padding:11px 0;border-bottom:1px solid var(--border)}
-    .ai:last-child{border:none}
-    .ad{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:4px}
-    .at{flex:1;font-size:.83rem;line-height:1.4}
-    .at strong{color:var(--text)}.at span{color:var(--muted)}
-    .atime{font-size:.7rem;color:var(--muted);flex-shrink:0;margin-top:1px}
-
-    /* Live indicator */
-    .live-dot{display:inline-flex;align-items:center;gap:5px;font-size:.75rem;font-weight:700;color:var(--p)}
-    .live-dot::before{content:'';width:8px;height:8px;background:var(--p);border-radius:50%;animation:pulse 1.5s ease-in-out infinite}
-    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
-
-    /* Toast */
-    .toast{position:fixed;bottom:22px;right:22px;background:var(--text);color:#fff;padding:11px 18px;border-radius:12px;font-size:.86rem;font-weight:600;z-index:9999;transform:translateY(100px);transition:transform .3s;box-shadow:var(--shl)}
-    .toast.show{transform:translateY(0)}
-    .toast.ok{background:var(--p)}.toast.err{background:var(--red)}
-
-    /* Admin login gate */
-    .gate{position:fixed;inset:0;background:rgba(15,30,13,.97);z-index:999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
-    .gate-box{background:#fff;border-radius:20px;padding:38px;width:370px;max-width:90%;box-shadow:0 20px 60px rgba(0,0,0,.3)}
-    .gate-box h2{font-family:var(--font-h);font-size:1.35rem;font-weight:900;color:var(--p);text-align:center;margin-bottom:5px}
-    .gate-box p{font-size:.8rem;color:var(--muted);text-align:center;margin-bottom:22px}
-    .glg{margin-bottom:13px}
-    .glg label{display:block;font-size:.76rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
-    .glg input{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-family:var(--font-b);font-size:.93rem;outline:none}
-    .glg input:focus{border-color:var(--pl)}
-    .ge{color:var(--red);font-size:.8rem;margin-bottom:9px;display:none;text-align:center}
-    .gbtn{width:100%;background:var(--p);color:#fff;border:none;border-radius:12px;padding:12px;font-size:.93rem;font-weight:700;font-family:var(--font-b);cursor:pointer;transition:all .2s;margin-top:3px}
-    .gbtn:hover{background:var(--pd)}
-    .ghint{text-align:center;font-size:.73rem;color:var(--muted);margin-top:13px}
-
-    @media(max-width:900px){
-      .sb{transform:translateX(-100%)}
-      .sb.open{transform:translateX(0)}
-      .main{margin-left:0}
-      .charts{grid-template-columns:1fr}
-      .mob-btn{display:flex!important}
-    }
-    .mob-btn{display:none!important;background:none;border:none;font-size:1.35rem;cursor:pointer;color:var(--text);align-items:center}
-    .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99}
-    .overlay.open{display:block}
-  </style>
 </head>
 <body>
 
-<!-- Admin Login Gate -->
-<div class="gate" id="gate">
-  <div class="gate-box">
-    <div style="text-align:center;font-size:2.4rem;margin-bottom:9px">🔐</div>
-    <h2>Admin Panel</h2>
-    <p>Azad Vegetable and Fruits — Owner Access Only</p>
-    <div class="glg"><label>Username</label><input type="text" id="aUser" placeholder="admin" value="admin"/></div>
-    <div class="glg"><label>Password</label><input type="password" id="aPass" placeholder="Password" onkeydown="if(event.key==='Enter')checkLogin()"/></div>
-    <p class="ge" id="gErr">Incorrect username or password.</p>
-    <button class="gbtn" onclick="checkLogin()">Login to Admin Panel</button>
-    <div class="ghint">Default: username <strong>admin</strong> · password <strong>azad1994</strong><br/>Change in Settings tab after login.</div>
-    <div style="text-align:center;margin-top:13px"><a href="index.html" style="font-size:.8rem;color:var(--muted)">← Back to Shop</a></div>
-  </div>
-</div>
-
-<div class="overlay" id="overlay" onclick="closeSB()"></div>
-
-<!-- Sidebar -->
-<nav class="sb" id="sb">
-  <div class="sb-logo"><span>🛒</span><div><strong>Azad Admin</strong><small>Owner Panel · Since 1994</small></div></div>
-  <div class="sb-nav">
-    <div class="sb-sec">Main</div>
-    <div class="sb-item on" onclick="showSec('dashboard')"><i class="fas fa-tachometer-alt"></i> Dashboard</div>
-    <div class="sb-item"   onclick="showSec('prices')"><i class="fas fa-tags"></i> Manage Prices</div>
-    <div class="sb-item"   onclick="showSec('products')"><i class="fas fa-boxes"></i> Products</div>
-    <div class="sb-sec">Marketing</div>
-    <div class="sb-item"   onclick="showSec('offers')"><i class="fas fa-percentage"></i> Offers &amp; Deals</div>
-    <div class="sb-item"   onclick="showSec('customers')"><i class="fas fa-users"></i> Customers</div>
-    <div class="sb-sec">Reports</div>
-    <div class="sb-item"   onclick="showSec('orders')"><i class="fas fa-receipt"></i> Orders</div>
-    <div class="sb-item"   onclick="showSec('analytics')"><i class="fas fa-chart-bar"></i> Analytics</div>
-    <div class="sb-sec">Config</div>
-    <div class="sb-item"   onclick="showSec('settings')"><i class="fas fa-cog"></i> Settings</div>
-  </div>
-  <div class="sb-btm">
-    <div class="sb-user">
-      <div class="sb-av">A</div>
-      <div><strong>Admin</strong><span>Owner</span></div>
-      <button class="sb-out" onclick="adminOut()" title="Logout"><i class="fas fa-sign-out-alt"></i></button>
+<!-- ── NAVBAR ─────────────────────────────────────────────────── -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <div class="nav-logo" onclick="showPage('home')">
+      <span class="logo-icon">🛒</span>
+      <span class="logo-text">Azad Fruits &amp; Veggies</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a class="nav-link active" onclick="showPage('home')">Home</a></li>
+      <li><a class="nav-link" onclick="showPage('shop')">Shop</a></li>
+      <li><a class="nav-link" onclick="showPage('offers')">Offers</a></li>
+      <li><a class="nav-link" onclick="showPage('contact')">Contact</a></li>
+      <li><a class="nav-link" onclick="showPage('about')">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search veggies &amp; fruits..." id="searchInput" oninput="handleSearch()"/>
+      </div>
+      <button class="icon-btn nav-user-btn" onclick="showPage('profile')" title="My Profile">
+        <i class="fas fa-user"></i>
+        <span class="nav-user-name" id="navUserName"></span>
+      </button>
+      <button class="icon-btn cart-btn" onclick="showPage('cart')" title="Cart">
+        <i class="fas fa-shopping-basket"></i>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+      <button class="icon-btn logout-btn" onclick="logoutUser()" title="Logout">
+        <i class="fas fa-sign-out-alt"></i>
+      </button>
+      <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
 </nav>
 
-<main class="main">
-  <div class="topbar">
-    <div style="display:flex;align-items:center;gap:11px">
-      <button class="mob-btn" onclick="openSB()"><i class="fas fa-bars"></i></button>
-      <div><h2 id="secTitle">Dashboard</h2><p id="secSub">Welcome back! Here's your shop overview.</p></div>
-    </div>
-    <div class="topbar-r">
-      <span class="live-dot" id="liveStatus">Live prices synced</span>
-      <div class="admin-badge"><i class="fas fa-shield-alt"></i> Admin</div>
-      <a href="index.html" class="back-btn"><i class="fas fa-store"></i> View Shop</a>
-    </div>
-  </div>
-
-  <!-- DASHBOARD -->
-  <div class="sec on" id="sec-dashboard">
-    <div class="stats" id="statsGrid"></div>
-    <div class="charts">
-      <div class="card"><div class="ch"><h3><i class="fas fa-chart-bar" style="color:var(--p)"></i> Weekly Visits</h3></div><div class="cb"><div class="bar-wrap" id="weekChart"></div></div></div>
-      <div class="card"><div class="ch"><h3><i class="fas fa-fire" style="color:var(--orange)"></i> Top Selling Items</h3></div><div class="cb"><div class="bar-wrap" id="topChart"></div></div></div>
-    </div>
-    <div class="card"><div class="ch"><h3><i class="fas fa-bolt" style="color:var(--orange)"></i> Recent Activity</h3></div><div class="cb"><div id="actFeed"></div></div></div>
-    <div class="card"><div class="ch"><h3><i class="fas fa-user-clock" style="color:var(--blue)"></i> Recent Visitors</h3></div><div class="cb"><div id="visitorFeed"></div></div></div>
-  </div>
-
-  <!-- PRICES -->
-  <div class="sec" id="sec-prices">
-    <div class="card">
-      <div class="ch">
-        <h3><i class="fas fa-tags" style="color:var(--p)"></i> Update Daily Prices <span class="live-dot" style="margin-left:8px">Firestore live sync</span></h3>
-        <button class="btn" onclick="saveAllPrices()"><i class="fas fa-save"></i> Save &amp; Push Live</button>
-      </div>
-      <div class="cb">
-        <p style="font-size:.83rem;color:var(--muted);margin-bottom:15px">Edit prices below → Click <strong>Save &amp; Push Live</strong> → All customers see new prices instantly via Firestore!</p>
-        <div class="tw"><table id="priceTable"><thead><tr><th></th><th>Name</th><th>Category</th><th>Current Price</th><th>New Price (Edit Here)</th><th>Unit</th></tr></thead><tbody id="priceTbody"></tbody></table></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PRODUCTS -->
-  <div class="sec" id="sec-products">
-    <div class="card">
-      <div class="ch"><h3><i class="fas fa-plus-circle" style="color:var(--p)"></i> Add New Product</h3></div>
-      <div class="cb">
-        <div class="af">
-          <h4><i class="fas fa-plus"></i> New Product Details</h4>
-          <div class="fg">
-            <div><label>Emoji</label><input type="text" id="nEmoji" placeholder="🍅" maxlength="4"/></div>
-            <div><label>English Name</label><input type="text" id="nName" placeholder="e.g. Pumpkin"/></div>
-            <div><label>Hindi Name</label><input type="text" id="nHindi" placeholder="e.g. कद्दू"/></div>
-            <div><label>Price (₹)</label><input type="number" id="nPrice" placeholder="50"/></div>
-            <div><label>Unit</label><select id="nUnit"><option>kg</option><option>bunch</option><option>piece</option><option>dozen</option><option>pack</option></select></div>
-            <div><label>Category</label><select id="nCat"><option value="freshfruit">Fresh Fruits</option><option value="fruit">Fruit Veggies</option><option value="root">Root Veggies</option><option value="leafy">Leafy Greens</option><option value="exotic">Exotic Veggies</option><option value="herbs">Herbs &amp; Spices</option></select></div>
-            <div><label>Badge (optional)</label><input type="text" id="nBadge" placeholder="Fresh, Sale, Hot"/></div>
-            <div><label>Description</label><input type="text" id="nDesc" placeholder="Short description..."/></div>
-          </div>
-          <button class="btn" style="margin-top:15px" onclick="addProduct()"><i class="fas fa-plus"></i> Add Product</button>
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="ch"><h3><i class="fas fa-list" style="color:var(--p)"></i> All Products (<span id="pCount">0</span>)</h3></div>
-      <div class="cb"><div class="tw"><table><thead><tr><th></th><th>Name</th><th>Category</th><th>Price</th><th>Unit</th><th>Badge</th><th>Action</th></tr></thead><tbody id="prodTbody"></tbody></table></div></div>
-    </div>
-  </div>
-
-  <!-- OFFERS -->
-  <div class="sec" id="sec-offers">
-    <div class="card">
-      <div class="ch"><h3><i class="fas fa-percentage" style="color:var(--orange)"></i> Active Offers</h3><button class="btn" onclick="addOffer()"><i class="fas fa-plus"></i> Add Offer</button></div>
-      <div class="cb"><div id="offersEd"></div></div>
-    </div>
-  </div>
-
-  <!-- CUSTOMERS -->
-  <div class="sec" id="sec-customers">
-    <div class="card">
-      <div class="ch"><h3><i class="fas fa-users" style="color:var(--blue)"></i> All Customers (<span id="custCnt">0</span>)</h3></div>
-      <div class="cb"><div class="tw"><table><thead><tr><th>Avatar</th><th>Name</th><th>Email</th><th>Phone</th><th>Joined</th><th>Auth</th></tr></thead><tbody id="custTbody"></tbody></table></div></div>
-    </div>
-  </div>
-
-  <!-- ORDERS -->
-  <div class="sec" id="sec-orders">
-    <div class="card">
-      <div class="ch"><h3><i class="fas fa-receipt" style="color:var(--p)"></i> Orders (<span id="ordCnt">0</span>)</h3></div>
-      <div class="cb"><div class="tw"><table><thead><tr><th>Order #</th><th>Customer</th><th>Items</th><th>Total</th><th>Date</th><th>Status</th></tr></thead><tbody id="ordTbody"></tbody></table></div></div>
-    </div>
-  </div>
-
-  <!-- ANALYTICS -->
-  <div class="sec" id="sec-analytics">
-    <div class="stats" id="analyticsStats"></div>
-    <div class="card"><div class="ch"><h3><i class="fas fa-chart-line" style="color:var(--p)"></i> Daily Visitor Trend</h3></div><div class="cb"><div class="bar-wrap" id="dailyChart"></div></div></div>
-    <div class="card"><div class="ch"><h3><i class="fas fa-fire" style="color:var(--orange)"></i> Top Selling Items</h3></div><div class="cb"><div class="bar-wrap" id="topSell"></div></div></div>
-  </div>
-
-  <!-- SETTINGS -->
-  <div class="sec" id="sec-settings">
-    <div class="card">
-      <div class="ch"><h3><i class="fas fa-store" style="color:var(--p)"></i> Shop Information</h3></div>
-      <div class="cb">
-        <div class="fg" style="margin-bottom:15px">
-          <div><label>Shop Name</label><input type="text" id="sName" value="Azad Vegetable and Fruits"/></div>
-          <div><label>Owner Name</label><input type="text" id="sOwner" value="Azad Bhai"/></div>
-          <div><label>WhatsApp Number</label><input type="text" id="sWA" value="919875165487"/></div>
-          <div><label>Phone</label><input type="text" id="sPhone" value="+919875165487"/></div>
-          <div><label>Address</label><input type="text" id="sAddr" value="Gandhi Market, Navrangpura, Ahmedabad"/></div>
-          <div><label>Est. Year</label><input type="text" id="sYear" value="1994"/></div>
-        </div>
-        <button class="btn" onclick="saveSettings()"><i class="fas fa-save"></i> Save Settings</button>
-      </div>
-    </div>
-    <div class="card">
-      <div class="ch"><h3><i class="fas fa-lock" style="color:var(--red)"></i> Change Admin Password</h3></div>
-      <div class="cb">
-        <div class="fg">
-          <div><label>Current Password</label><input type="password" id="cPass" placeholder="Current password"/></div>
-          <div><label>New Password</label><input type="password" id="nPass" placeholder="New password (min 6 chars)"/></div>
-          <div><label>Confirm Password</label><input type="password" id="cfPass" placeholder="Confirm new password"/></div>
-        </div>
-        <button class="btn" style="margin-top:13px" onclick="changePass()"><i class="fas fa-key"></i> Change Password</button>
-      </div>
-    </div>
-  </div>
-
-</main>
 <div class="toast" id="toast"></div>
 
-<script>
-// ── Admin Auth ────────────────────────────────────────────────────
-const DEF_CREDS = {user:'admin', pass:'azad1994'};
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: HOME
+════════════════════════════════════════════════════════════ -->
+<div id="page-home" class="page active">
 
-window.addEventListener('load', () => {
-  const s = localStorage.getItem('azad_admin_s');
-  if (s==='1') { document.getElementById('gate').style.display='none'; initAdmin(); }
-});
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="hero-blob blob1"></div>
+      <div class="hero-blob blob2"></div>
+      <div class="hero-blob blob3"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-tag"><i class="fas fa-leaf"></i> Farm Fresh Daily</div>
+      <div class="hero-legacy-banner">🏆 <strong>30+ Years of Trust</strong> — Serving Ahmedabad since 1994</div>
+      <h1 class="hero-title">Fresh Vegetables &amp; Fruits<br/><span>Delivered Today</span></h1>
+      <p class="hero-subtitle">Order directly from <strong>Azad Vegetable and Fruits</strong> — your trusted neighbourhood shop since 1994. Farm-fresh produce to your doorstep via WhatsApp!</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('shop')"><i class="fas fa-carrot"></i> Shop Now</button>
+        <button class="btn-outline" onclick="scrollToSection('how-it-works')"><i class="fas fa-play-circle"></i> How it Works</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span>500+</span><small>Happy Customers</small></div>
+        <div class="stat"><span>70+</span><small>Veggies &amp; Fruits</small></div>
+        <div class="stat"><span>30+</span><small>Years of Service</small></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="veggie-circle">
+        <div class="veggie-orbit orbit1"><span class="veggie-emoji">🍎</span></div>
+        <div class="veggie-orbit orbit2"><span class="veggie-emoji">🥕</span></div>
+        <div class="veggie-orbit orbit3"><span class="veggie-emoji">🍌</span></div>
+        <div class="center-veggie">🛒</div>
+      </div>
+    </div>
+  </section>
 
-function checkLogin() {
-  const u = document.getElementById('aUser').value.trim();
-  const p = document.getElementById('aPass').value;
-  const c = JSON.parse(localStorage.getItem('azad_admin_c') || JSON.stringify(DEF_CREDS));
-  if (u===c.user && p===c.pass) {
-    localStorage.setItem('azad_admin_s','1');
-    document.getElementById('gate').style.display='none';
-    initAdmin();
-  } else { document.getElementById('gErr').style.display='block'; }
-}
+  <!-- Mobile Search Bar — only visible on mobile -->
+  <div class="mobile-search" id="mobileSearch">
+    <i class="fas fa-search"></i>
+    <input type="text" placeholder="Search vegetables &amp; fruits..." id="mobileSearchInput" oninput="handleMobileSearch()"/>
+  </div>
 
-function adminOut() { localStorage.removeItem('azad_admin_s'); location.reload(); }
+  <!-- Marquee -->
+  <div class="marquee-strip">
+    <div class="marquee-track">
+      <span>🍅 टमाटर</span><span>🍎 सेब</span><span>🥕 गाजर</span><span>🍌 केला</span><span>🧅 प्याज</span><span>🍇 अंगूर</span><span>🥔 आलू</span><span>🍊 संतरा</span><span>🥬 पालक</span><span>🍉 तरबूज</span><span>🧄 लहसुन</span><span>🥭 आम</span><span>🍆 बैंगन</span><span>🍋 नींबू</span><span>🫑 शिमला मिर्च</span><span>🥦 ब्रोकली</span>
+      <span>🍅 टमाटर</span><span>🍎 सेब</span><span>🥕 गाजर</span><span>🍌 केला</span><span>🧅 प्याज</span><span>🍇 अंगूर</span><span>🥔 आलू</span><span>🍊 संतरा</span><span>🥬 पालक</span><span>🍉 तरबूज</span><span>🧄 लहसुन</span><span>🥭 आम</span><span>🍆 बैंगन</span><span>🍋 नींबू</span><span>🫑 शिमला मिर्च</span><span>🥦 ब्रोकली</span>
+    </div>
+  </div>
 
-// ── Sidebar ───────────────────────────────────────────────────────
-const secMeta = {
-  dashboard: {title:'Dashboard',       sub:"Welcome back! Here's your shop overview."},
-  prices:    {title:'Manage Prices',   sub:'Update prices — changes go live instantly for all customers.'},
-  products:  {title:'Products',        sub:'Add, edit, or remove products from the shop.'},
-  offers:    {title:'Offers & Deals',  sub:'Create and manage special offers.'},
-  customers: {title:'Customers',       sub:'All registered customers from Firebase.'},
-  orders:    {title:'Orders',          sub:'All orders placed via WhatsApp.'},
-  analytics: {title:'Analytics',       sub:'Visitor and sales data.'},
-  settings:  {title:'Settings',        sub:'Configure shop details and admin credentials.'},
-};
+  <!-- Categories -->
+  <section class="section" id="categories">
+    <div class="container">
+      <div class="section-head">
+        <h2>Shop by <span>Category</span></h2>
+        <p>Browse our wide collection of farm-fresh vegetables &amp; fruits</p>
+      </div>
+      <div class="categories-grid">
+        <div class="cat-card" onclick="filterCategory('freshfruit')"><div class="cat-icon">🍎</div><h3>Fresh Fruits</h3><p>सेब, केला, आम, अंगूर</p></div>
+        <div class="cat-card" onclick="filterCategory('leafy')"><div class="cat-icon">🥬</div><h3>Leafy Greens</h3><p>पालक, मेथी, धनिया</p></div>
+        <div class="cat-card" onclick="filterCategory('root')"><div class="cat-icon">🥕</div><h3>Root Veggies</h3><p>आलू, गाजर, मूली</p></div>
+        <div class="cat-card" onclick="filterCategory('fruit')"><div class="cat-icon">🍅</div><h3>Fruit Veggies</h3><p>टमाटर, बैंगन, शिमला मिर्च</p></div>
+        <div class="cat-card" onclick="filterCategory('exotic')"><div class="cat-icon">🥦</div><h3>Exotic Veggies</h3><p>ब्रोकली, मशरूम, बेबी कॉर्न</p></div>
+        <div class="cat-card" onclick="filterCategory('herbs')"><div class="cat-icon">🌿</div><h3>Herbs &amp; Spices</h3><p>लहसुन, अदरक, हरी मिर्च</p></div>
+        <div class="cat-card" onclick="filterCategory('all')"><div class="cat-icon">🛒</div><h3>All Items</h3><p>सभी सब्जियां व फल देखें</p></div>
+      </div>
+    </div>
+  </section>
 
-function showSec(id) {
-  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
-  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('on'));
-  document.getElementById('sec-'+id).classList.add('on');
-  const items = document.querySelectorAll('.sb-item');
-  items.forEach(i=>{if(i.getAttribute('onclick')?.includes(id)) i.classList.add('on');});
-  document.getElementById('secTitle').textContent = secMeta[id].title;
-  document.getElementById('secSub').textContent   = secMeta[id].sub;
-  closeSB();
-  if (id==='dashboard') renderDash();
-  if (id==='prices')    renderPrices();
-  if (id==='products')  renderProducts();
-  if (id==='offers')    renderOffers();
-  if (id==='customers') renderCustomers();
-  if (id==='orders')    renderOrders();
-  if (id==='analytics') renderAnalytics();
-}
+  <!-- Featured -->
+  <section class="section bg-light" id="featured">
+    <div class="container">
+      <div class="section-head"><h2>Today's <span>Fresh Picks</span></h2><p>Handpicked freshness delivered to you</p></div>
+      <div class="products-grid" id="featuredGrid"></div>
+      <div class="center-btn">
+        <button class="btn-primary" onclick="showPage('shop')">View All Vegetables &amp; Fruits <i class="fas fa-arrow-right"></i></button>
+      </div>
+    </div>
+  </section>
 
-function openSB()  { document.getElementById('sb').classList.add('open');  document.getElementById('overlay').classList.add('open'); }
-function closeSB() { document.getElementById('sb').classList.remove('open'); document.getElementById('overlay').classList.remove('open'); }
+  <!-- How it works -->
+  <section class="section" id="how-it-works">
+    <div class="container">
+      <div class="section-head"><h2>How It <span>Works</span></h2><p>Order fresh produce in 3 simple steps</p></div>
+      <div class="steps-grid">
+        <div class="step-card"><div class="step-num">01</div><div class="step-icon">🛒</div><h3>Add to Cart</h3><p>Browse vegetables &amp; fruits, choose quantity, and add to your cart easily.</p></div>
+        <div class="step-divider"><i class="fas fa-arrow-right"></i></div>
+        <div class="step-card"><div class="step-num">02</div><div class="step-icon">📝</div><h3>Fill Details</h3><p>Enter your name, phone number, and delivery address.</p></div>
+        <div class="step-divider"><i class="fas fa-arrow-right"></i></div>
+        <div class="step-card"><div class="step-num">03</div><div class="step-icon">💬</div><h3>Order on WhatsApp</h3><p>Your complete order is sent directly to our WhatsApp!</p></div>
+      </div>
+    </div>
+  </section>
 
-// ── Data helpers ──────────────────────────────────────────────────
-function getStats()    { return JSON.parse(localStorage.getItem('azad_stats') || '{"visitors":[],"totalOrders":0,"revenue":0,"dailyVisits":{}}'); }
-function getUsers()    { return JSON.parse(localStorage.getItem('azad_users')  || '[]'); }
-function getOrders()   { return JSON.parse(localStorage.getItem('azad_orders') || '[]'); }
-function getCustomProd(){ return JSON.parse(localStorage.getItem('azad_custom_products')||'[]'); }
-function getOfferData(){ return JSON.parse(localStorage.getItem('azad_offers')|| JSON.stringify(defaultOffers())); }
-function getAdminPrices(){ return JSON.parse(localStorage.getItem('azad_prices')||'{}'); }
+  <!-- Testimonials -->
+  <section class="section bg-green">
+    <div class="container">
+      <div class="section-head light"><h2>What Our <span>Customers Say</span></h2></div>
+      <div class="testimonials-grid">
+        <div class="testi-card"><div class="testi-stars">⭐⭐⭐⭐⭐</div><p>"Best vegetables and fruits in Ahmedabad! Super fresh and delivered on time. Azad shop ka quality ekdum top hai!"</p><div class="testi-author"><div class="testi-avatar">R</div><div><strong>Riya Shah</strong><small>Navrangpura</small></div></div></div>
+        <div class="testi-card"><div class="testi-stars">⭐⭐⭐⭐⭐</div><p>"I order every week from Azad. The quality is consistent and prices are very reasonable. 30 years mein kya quality maintain ki hai!"</p><div class="testi-author"><div class="testi-avatar">M</div><div><strong>Mohit Patel</strong><small>Vastrapur</small></div></div></div>
+        <div class="testi-card"><div class="testi-stars">⭐⭐⭐⭐⭐</div><p>"The website is so easy to use. Add items, fill address, click WhatsApp — order placed in 2 minutes. Amazing service!"</p><div class="testi-author"><div class="testi-avatar">P</div><div><strong>Priya Mehta</strong><small>Bopal</small></div></div></div>
+      </div>
+    </div>
+  </section>
 
-function defaultOffers() {
-  return [
-    {id:1,emoji:"🌿",title:"Weekend Special",badge:"FLAT 20% OFF",desc:"20% off on leafy greens & fruits every Saturday & Sunday",active:true},
-    {id:2,emoji:"🚚",title:"Free Delivery",badge:"FREE DELIVERY",desc:"Free delivery on all orders above ₹300",active:true},
-    {id:3,emoji:"🍎",title:"Fruit Basket ₹249",badge:"FRUIT BUNDLE",desc:"Banana 1 dozen + Apple 500g + Orange 4 pcs combo!",active:true},
-    {id:4,emoji:"🥔",title:"Sabzi Bundle ₹199",badge:"SABZI BUNDLE",desc:"Tomato 1kg + Onion 1kg + Potato 1kg combo!",active:true},
-  ];
-}
+  <!-- Newsletter -->
+  <section class="section">
+    <div class="container">
+      <div class="newsletter-box">
+        <div class="nl-content"><h2>Get Daily <span>Fresh Deals</span></h2><p>Save our WhatsApp number and get daily fresh veggie &amp; fruit updates</p></div>
+        <div class="nl-action"><a href="https://wa.me/919875165487?text=Hi! Please add me to your daily deals list 🛒" target="_blank" class="btn-whatsapp-lg"><i class="fab fa-whatsapp"></i> Save on WhatsApp</a></div>
+      </div>
+    </div>
+  </section>
+</div>
 
-function baseProducts() {
-  return [
-    {id:23,name:"Apple (सेब)",emoji:"🍎",price:160,unit:"kg",category:"freshfruit",badge:"Popular"},
-    {id:24,name:"Banana (केला)",emoji:"🍌",price:50,unit:"dozen",category:"freshfruit",badge:"Bestseller"},
-    {id:25,name:"Mango (आम)",emoji:"🥭",price:120,unit:"kg",category:"freshfruit",badge:"Seasonal"},
-    {id:26,name:"Orange (संतरा)",emoji:"🍊",price:80,unit:"kg",category:"freshfruit",badge:"Fresh"},
-    {id:27,name:"Watermelon (तरबूज)",emoji:"🍉",price:30,unit:"kg",category:"freshfruit",badge:"Seasonal"},
-    {id:28,name:"Grapes (अंगूर)",emoji:"🍇",price:100,unit:"kg",category:"freshfruit",badge:null},
-    {id:29,name:"Papaya (पपीता)",emoji:"🍐",price:40,unit:"kg",category:"freshfruit",badge:null},
-    {id:30,name:"Pomegranate (अनार)",emoji:"🍑",price:140,unit:"kg",category:"freshfruit",badge:"Premium"},
-    {id:31,name:"Lemon (नींबू)",emoji:"🍋",price:60,unit:"kg",category:"freshfruit",badge:null},
-    {id:32,name:"Guava (अमरूद)",emoji:"🍐",price:60,unit:"kg",category:"freshfruit",badge:"Fresh"},
-    {id:33,name:"Coconut (नारियल)",emoji:"🥥",price:45,unit:"piece",category:"freshfruit",badge:null},
-    {id:34,name:"Pineapple (अनानास)",emoji:"🍍",price:60,unit:"piece",category:"freshfruit",badge:null},
-    {id:1,name:"Tomato (टमाटर)",emoji:"🍅",price:30,unit:"kg",category:"fruit",badge:"Fresh"},
-    {id:2,name:"Brinjal (बैंगन)",emoji:"🍆",price:35,unit:"kg",category:"fruit",badge:null},
-    {id:3,name:"Capsicum (शिमला मिर्च)",emoji:"🫑",price:60,unit:"kg",category:"fruit",badge:"Sale"},
-    {id:4,name:"Cucumber (खीरा)",emoji:"🥒",price:25,unit:"kg",category:"fruit",badge:null},
-    {id:5,name:"Bitter Gourd (करेला)",emoji:"🥬",price:40,unit:"kg",category:"fruit",badge:null},
-    {id:6,name:"Potato (आलू)",emoji:"🥔",price:28,unit:"kg",category:"root",badge:"Bestseller"},
-    {id:7,name:"Onion (प्याज)",emoji:"🧅",price:35,unit:"kg",category:"root",badge:null},
-    {id:8,name:"Carrot (गाजर)",emoji:"🥕",price:38,unit:"kg",category:"root",badge:"Organic"},
-    {id:9,name:"Radish (मूली)",emoji:"🌾",price:20,unit:"bunch",category:"root",badge:null},
-    {id:10,name:"Beetroot (चुकंदर)",emoji:"🫚",price:35,unit:"kg",category:"root",badge:null},
-    {id:11,name:"Spinach (पालक)",emoji:"🥬",price:20,unit:"bunch",category:"leafy",badge:"Fresh"},
-    {id:12,name:"Fenugreek (मेथी)",emoji:"🌿",price:15,unit:"bunch",category:"leafy",badge:null},
-    {id:13,name:"Coriander (धनिया)",emoji:"🪴",price:10,unit:"bunch",category:"leafy",badge:null},
-    {id:14,name:"Cabbage (पत्तागोभी)",emoji:"🥬",price:30,unit:"kg",category:"leafy",badge:null},
-    {id:15,name:"Broccoli (ब्रोकली)",emoji:"🥦",price:80,unit:"kg",category:"exotic",badge:"Exotic"},
-    {id:16,name:"Baby Corn (बेबी कॉर्न)",emoji:"🌽",price:90,unit:"pack",category:"exotic",badge:"Exotic"},
-    {id:17,name:"Mushroom (मशरूम)",emoji:"🍄",price:120,unit:"pack",category:"exotic",badge:"Premium"},
-    {id:18,name:"Zucchini (तोरई)",emoji:"🥒",price:70,unit:"kg",category:"exotic",badge:"Exotic"},
-    {id:19,name:"Garlic (लहसुन)",emoji:"🧄",price:100,unit:"kg",category:"herbs",badge:null},
-    {id:20,name:"Ginger (अदरक)",emoji:"🫚",price:80,unit:"kg",category:"herbs",badge:null},
-    {id:21,name:"Green Chilli (हरी मिर्च)",emoji:"🌶️",price:40,unit:"kg",category:"herbs",badge:"Hot"},
-    {id:22,name:"Curry Leaves (कड़ी पत्ता)",emoji:"🍃",price:10,unit:"bunch",category:"herbs",badge:null},
-  ];
-}
-
-function getAllProducts() {
-  const prices = getAdminPrices();
-  const custom  = getCustomProd();
-  const base    = baseProducts();
-  return [...base, ...custom].map(p => ({...p, price: prices[p.id]!==undefined ? prices[p.id] : p.price}));
-}
-
-function catColor(c) { return ({freshfruit:'bo',fruit:'br',root:'bp',leafy:'bg',exotic:'bb',herbs:'bg'})[c]||'bg'; }
-
-// ── Init ──────────────────────────────────────────────────────────
-function initAdmin() { renderDash(); }
-
-// ── Dashboard ─────────────────────────────────────────────────────
-function renderDash() {
-  const stats = getStats(), users = getUsers(), orders = getOrders();
-  const today = new Date().toDateString();
-  const tv = (stats.dailyVisits||{})[today]||0;
-  const total = orders.length||stats.totalOrders||0;
-  const rev   = orders.reduce((s,o)=>s+(o.total||0),0)||stats.revenue||0;
-
-  document.getElementById('statsGrid').innerHTML = `
-    <div class="sc g"><div class="sc-icon">👥</div><div class="sc-val">${users.length}</div><div class="sc-lbl">Total Customers</div><div class="sc-ch">↑ All registered users</div></div>
-    <div class="sc o"><div class="sc-icon">📅</div><div class="sc-val">${tv}</div><div class="sc-lbl">Today's Visitors</div><div class="sc-ch">↑ Unique visits today</div></div>
-    <div class="sc b"><div class="sc-icon">🛒</div><div class="sc-val">${total}</div><div class="sc-lbl">Total Orders</div><div class="sc-ch">↑ WhatsApp orders</div></div>
-    <div class="sc pu"><div class="sc-icon">💰</div><div class="sc-val">₹${rev.toLocaleString()}</div><div class="sc-lbl">Total Revenue</div><div class="sc-ch">↑ Estimated earnings</div></div>
-    <div class="sc g"><div class="sc-icon">🏬</div><div class="sc-val">30+</div><div class="sc-lbl">Years in Business</div><div class="sc-ch">↑ Since 1994</div></div>
-    <div class="sc o"><div class="sc-icon">🛍️</div><div class="sc-val">${getAllProducts().length}</div><div class="sc-lbl">Products Listed</div><div class="sc-ch">↑ Veggies & Fruits</div></div>`;
-
-  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-  const dv   = stats.dailyVisits||{};
-  const dvv  = Object.values(dv).slice(-7);
-  const mx   = Math.max(...dvv,1);
-  document.getElementById('weekChart').innerHTML = days.map((d,i)=>{
-    const v=dvv[i]||Math.floor(Math.random()*12+3);
-    const pct=Math.round((v/mx)*100);
-    return `<div class="bar-row"><div class="bar-lbl">${d}</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%">${v}</div></div><div class="bar-val">${v}</div></div>`;
-  }).join('');
-
-  const top = [{n:"Potato (आलू)",e:"🥔",v:87},{n:"Tomato (टमाटर)",e:"🍅",v:74},{n:"Onion (प्याज)",e:"🧅",v:68},{n:"Apple (सेब)",e:"🍎",v:62},{n:"Banana (केला)",e:"🍌",v:55},{n:"Coriander (धनिया)",e:"🪴",v:48}];
-  const mx2=Math.max(...top.map(t=>t.v));
-  document.getElementById('topChart').innerHTML = top.map(t=>{
-    const pct=Math.round((t.v/mx2)*100);
-    return `<div class="bar-row"><div class="bar-lbl" style="width:90px;font-size:.7rem">${t.e} ${t.n.split(' ')[0]}</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:var(--orange)">${t.v}</div></div><div class="bar-val">${t.v}</div></div>`;
-  }).join('');
-
-  const acts = [
-    {dot:'#2d7a22',txt:'<strong>30+ Years</strong> <span>— Serving Ahmedabad families since 1994 🏆</span>',time:'Legacy'},
-    ...users.slice(-4).reverse().map(u=>({dot:'#3498db',txt:`<strong>${u.name||u.email}</strong> <span>registered as new customer</span>`,time:u.joined?new Date(u.joined).toLocaleDateString():'Today'})),
-    ...orders.slice(-3).reverse().map(o=>({dot:'#ff6f00',txt:`<strong>${o.name||'Customer'}</strong> <span>placed an order worth ₹${o.total||0}</span>`,time:o.date||'Today'})),
-  ].slice(0,7);
-  document.getElementById('actFeed').innerHTML = acts.length
-    ? acts.map(a=>`<div class="ai"><div class="ad" style="background:${a.dot}"></div><div class="at">${a.txt}</div><div class="atime">${a.time}</div></div>`).join('')
-    : '<p style="color:var(--muted);font-size:.83rem">No activity yet.</p>';
-
-  const vis = stats.visitors.slice(-6).reverse();
-  document.getElementById('visitorFeed').innerHTML = vis.length
-    ? vis.map(v=>`<div class="vr"><div class="vav">${v.email.charAt(0).toUpperCase()}</div><div class="vi"><strong>${v.email}</strong><span>${v.date}</span></div><div class="vt">${new Date(v.time||v.date).toLocaleTimeString()}</div></div>`).join('')
-    : '<p style="color:var(--muted);font-size:.83rem">No visitors logged yet. Visitors will appear here as customers log in.</p>';
-}
-
-// ── Prices ────────────────────────────────────────────────────────
-function renderPrices() {
-  const prods = getAllProducts();
-  document.getElementById('priceTbody').innerHTML = prods.map(p=>`
-    <tr>
-      <td class="em">${p.emoji}</td>
-      <td><strong>${p.name}</strong></td>
-      <td><span class="bdg ${catColor(p.category)}">${p.category}</span></td>
-      <td><strong style="color:var(--p)">₹${p.price}</strong></td>
-      <td><input class="pi" type="number" value="${p.price}" min="1" max="9999" id="pr_${p.id}" oninput="this.classList.add('changed')"/></td>
-      <td>${p.unit}</td>
-    </tr>`).join('');
-}
-
-function saveAllPrices() {
-  const prods  = getAllProducts();
-  const prices = {};
-  prods.forEach(p=>{ const el=document.getElementById('pr_'+p.id); if(el) prices[p.id]=parseInt(el.value)||p.price; });
-  localStorage.setItem('azad_prices', JSON.stringify(prices));
-  // Push to Firestore via the Firebase module (defined below)
-  if (typeof window._pushPricesToFirestore === 'function') {
-    window._pushPricesToFirestore(prices);
-    showToast('✅ Prices saved & pushed live to all customers!','ok');
-  } else {
-    showToast('✅ Prices saved locally! (Connect Firestore for live sync)','ok');
-  }
-  renderPrices();
-}
-
-// ── Products ──────────────────────────────────────────────────────
-function renderProducts() {
-  const prods  = getAllProducts();
-  const custom = getCustomProd();
-  document.getElementById('pCount').textContent = prods.length;
-  document.getElementById('prodTbody').innerHTML = prods.map(p=>`
-    <tr>
-      <td class="em">${p.emoji}</td>
-      <td><strong>${p.name}</strong></td>
-      <td><span class="bdg ${catColor(p.category)}">${p.category}</span></td>
-      <td><strong style="color:var(--p)">₹${p.price}</strong></td>
-      <td>${p.unit}</td>
-      <td>${p.badge?`<span class="bdg bo">${p.badge}</span>`:'-'}</td>
-      <td>${custom.find(c=>c.id===p.id)?`<button class="btn-del" onclick="removeProduct(${p.id})"><i class="fas fa-trash"></i></button>`:'<span style="font-size:.73rem;color:var(--muted)">Base</span>'}</td>
-    </tr>`).join('');
-}
-
-function addProduct() {
-  const emoji=document.getElementById('nEmoji').value.trim();
-  const name =document.getElementById('nName').value.trim();
-  const hindi=document.getElementById('nHindi').value.trim();
-  const price=parseInt(document.getElementById('nPrice').value)||0;
-  const unit =document.getElementById('nUnit').value;
-  const cat  =document.getElementById('nCat').value;
-  const badge=document.getElementById('nBadge').value.trim()||null;
-  const desc =document.getElementById('nDesc').value.trim();
-  if (!emoji||!name||!price) { showToast('Please fill Emoji, Name and Price','err'); return; }
-  const custom = getCustomProd();
-  const id     = Date.now();
-  custom.push({id, name:hindi?`${name} (${hindi})`:name, emoji, price, unit, category:cat, desc:desc||`Fresh ${name}.`, badge, rating:4.5, tags:[]});
-  localStorage.setItem('azad_custom_products', JSON.stringify(custom));
-  showToast(`✅ ${name} added!`,'ok');
-  ['nEmoji','nName','nHindi','nPrice','nBadge','nDesc'].forEach(x=>document.getElementById(x).value='');
-  renderProducts();
-}
-
-function removeProduct(id) {
-  if (!confirm('Remove this product?')) return;
-  const c = getCustomProd().filter(p=>p.id!==id);
-  localStorage.setItem('azad_custom_products', JSON.stringify(c));
-  showToast('Product removed','ok');
-  renderProducts();
-}
-
-// ── Offers ────────────────────────────────────────────────────────
-function renderOffers() {
-  const offers = getOfferData();
-  document.getElementById('offersEd').innerHTML = offers.map(o=>`
-    <div class="oec">
-      <div class="oi">${o.emoji}</div>
-      <div class="of">
-        <div class="or">
-          <input type="text" value="${o.emoji}" placeholder="Emoji" id="oe_${o.id}" style="width:70px"/>
-          <input type="text" value="${o.badge}" placeholder="Badge label" id="ob_${o.id}"/>
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: SHOP
+════════════════════════════════════════════════════════════ -->
+<div id="page-shop" class="page">
+  <div class="page-hero shop-hero"><h1>🥦🍎 Vegetables &amp; Fruits</h1><p>Farm fresh, handpicked daily for you</p></div>
+  <div class="container shop-layout">
+    <aside class="sidebar">
+      <div class="filter-box">
+        <h3><i class="fas fa-filter"></i> Filter</h3>
+        <div class="filter-group">
+          <label>Category</label>
+          <select id="filterSelect" onchange="applyFilters()">
+            <option value="all">All Categories</option>
+            <option value="freshfruit">🍎 Fresh Fruits</option>
+            <option value="leafy">Leafy Greens</option>
+            <option value="root">Root Veggies</option>
+            <option value="fruit">Fruit Veggies</option>
+            <option value="exotic">Exotic Veggies</option>
+            <option value="herbs">Herbs &amp; Spices</option>
+          </select>
         </div>
-        <input type="text" value="${o.title}" placeholder="Offer title" id="ot_${o.id}"/>
-        <input type="text" value="${o.desc}"  placeholder="Description" id="od_${o.id}"/>
-        <div class="oa">
-          <label style="display:flex;align-items:center;gap:6px;font-size:.8rem;cursor:pointer">
-            <input type="checkbox" ${o.active?'checked':''} id="oa_${o.id}"/> Active
-          </label>
-          <button class="btn-save" onclick="saveOffer(${o.id})"><i class="fas fa-save"></i> Save</button>
-          <button class="btn-del"  onclick="deleteOffer(${o.id})"><i class="fas fa-trash"></i></button>
+        <div class="filter-group">
+          <label>Sort By</label>
+          <select id="sortSelect" onchange="applyFilters()">
+            <option value="default">Default</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="name">Name A–Z</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Max Price: ₹<span id="priceVal">300</span></label>
+          <input type="range" min="10" max="300" value="300" id="priceRange" oninput="updatePrice(this.value);applyFilters()"/>
+        </div>
+        <button class="btn-sm" onclick="resetFilters()">Reset Filters</button>
+      </div>
+      <div class="sidebar-promo">
+        <div class="promo-badge">🎉 OFFER</div>
+        <p>Get 10% off on orders above ₹500!</p>
+        <small>Use code: FRESH10</small>
+      </div>
+    </aside>
+    <div class="shop-main">
+      <div class="shop-toolbar">
+        <span id="productCount">Showing all products</span>
+        <div class="view-toggle">
+          <button onclick="setView('grid')" id="gridBtn" class="view-btn active"><i class="fas fa-th"></i></button>
+          <button onclick="setView('list')" id="listBtn" class="view-btn"><i class="fas fa-list"></i></button>
         </div>
       </div>
-    </div>`).join('');
-}
+      <div class="products-grid" id="shopGrid"></div>
+    </div>
+  </div>
+</div>
 
-function saveOffer(id) {
-  const offers = getOfferData(), i = offers.findIndex(o=>o.id===id);
-  if(i===-1) return;
-  offers[i] = {...offers[i], emoji:document.getElementById('oe_'+id).value, badge:document.getElementById('ob_'+id).value, title:document.getElementById('ot_'+id).value, desc:document.getElementById('od_'+id).value, active:document.getElementById('oa_'+id).checked};
-  localStorage.setItem('azad_offers', JSON.stringify(offers));
-  showToast('✅ Offer saved!','ok'); renderOffers();
-}
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: CART
+════════════════════════════════════════════════════════════ -->
+<div id="page-cart" class="page">
+  <div class="page-hero cart-hero"><h1>🛒 Your Cart</h1><p>Review your order before checkout</p></div>
+  <div class="container cart-layout">
+    <div class="cart-items-section"><div id="cartItems"></div></div>
+    <div class="cart-summary-box">
+      <h3>Order Summary</h3>
+      <div class="summary-lines" id="summaryLines"></div>
+      <div class="summary-divider"></div>
+      <div class="summary-total" id="summaryTotal"></div>
+      <div class="promo-input">
+        <input type="text" placeholder="Promo code" id="promoCode"/>
+        <button onclick="applyPromo()">Apply</button>
+      </div>
+      <button class="btn-checkout" onclick="showPage('checkout')"><i class="fas fa-lock"></i> Proceed to Checkout</button>
+      <button class="btn-continue" onclick="showPage('shop')"><i class="fas fa-arrow-left"></i> Continue Shopping</button>
+    </div>
+  </div>
+</div>
 
-function deleteOffer(id) {
-  if (!confirm('Delete this offer?')) return;
-  localStorage.setItem('azad_offers', JSON.stringify(getOfferData().filter(o=>o.id!==id)));
-  showToast('Offer deleted','ok'); renderOffers();
-}
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: CHECKOUT
+════════════════════════════════════════════════════════════ -->
+<div id="page-checkout" class="page">
+  <div class="page-hero checkout-hero"><h1>📝 Checkout</h1><p>Fill your details to place the order</p></div>
+  <div class="container checkout-layout">
+    <div class="checkout-form-box">
+      <h3><i class="fas fa-user"></i> Delivery Details</h3>
+      <div class="form-row">
+        <div class="form-group"><label>Full Name *</label><input type="text" id="custName" placeholder="e.g. Rahul Patel"/></div>
+        <div class="form-group"><label>Phone Number *</label><input type="tel" id="custPhone" placeholder="e.g. 9875165487"/></div>
+      </div>
+      <div class="form-group"><label>Delivery Address *</label><textarea id="custAddress" placeholder="e.g. 23 Gandhi Nagar, Navrangpura, Ahmedabad" rows="3"></textarea></div>
+      <div class="form-row">
+        <div class="form-group"><label>City</label><input type="text" id="custCity" placeholder="Ahmedabad" value="Ahmedabad"/></div>
+        <div class="form-group"><label>Pincode</label><input type="text" id="custPin" placeholder="380009"/></div>
+      </div>
+      <div class="form-group">
+        <label>Delivery Time Preference</label>
+        <select id="custTime">
+          <option>Morning (7 AM – 10 AM)</option>
+          <option>Afternoon (12 PM – 3 PM)</option>
+          <option>Evening (5 PM – 8 PM)</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Special Instructions (optional)</label><textarea id="custNote" placeholder="e.g. Leave at door, call before delivery" rows="2"></textarea></div>
+    </div>
+    <div class="checkout-order-box">
+      <h3><i class="fas fa-receipt"></i> Order Review</h3>
+      <div id="checkoutItems"></div>
+      <div class="checkout-total" id="checkoutTotal"></div>
+      <div class="payment-info"><i class="fab fa-whatsapp" style="color:#25D366"></i><p>Your order will be sent to WhatsApp. Payment on delivery accepted.</p></div>
+      <button class="btn-whatsapp-order" onclick="placeOrder()"><i class="fab fa-whatsapp"></i> Place Order on WhatsApp</button>
+      <button class="btn-invoice" onclick="generateInvoice()"><i class="fas fa-file-invoice"></i> Download Invoice</button>
+    </div>
+  </div>
+</div>
 
-function addOffer() {
-  const o = getOfferData();
-  o.push({id:Date.now(),emoji:'🎁',title:'New Offer',badge:'SPECIAL',desc:'Describe your offer here',active:false});
-  localStorage.setItem('azad_offers', JSON.stringify(o));
-  renderOffers(); showToast('New offer added — fill and save','ok');
-}
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: OFFERS
+════════════════════════════════════════════════════════════ -->
+<div id="page-offers" class="page">
+  <div class="page-hero offers-hero"><h1>🎉 Special Offers</h1><p>Best deals on fresh vegetables &amp; fruits today!</p></div>
+  <div class="container">
+    <div class="offers-grid">
+      <div class="offer-card big">
+        <div class="offer-badge">FLAT 20% OFF</div>
+        <h2>Weekend Special!</h2>
+        <p>Get 20% off on all leafy greens &amp; seasonal fruits every Saturday &amp; Sunday</p>
+        <button class="btn-primary" onclick="filterCategory('freshfruit')">Shop Fruits</button>
+      </div>
+      <div class="offer-card">
+        <div class="offer-badge">FREE DELIVERY</div>
+        <h2>Order Above ₹300</h2>
+        <p>Free delivery on all orders above ₹300</p>
+        <button class="btn-primary" onclick="showPage('shop')">Shop Now</button>
+      </div>
+      <div class="offer-card">
+        <div class="offer-badge">FRUIT BUNDLE</div>
+        <h2>Fruit Basket ₹249</h2>
+        <p>Banana 1 dozen + Apple 500g + Orange 4 pcs combo!</p>
+        <button class="btn-primary" onclick="addFruitBundle()">Add Bundle</button>
+      </div>
+      <div class="offer-card">
+        <div class="offer-badge">SABZI BUNDLE</div>
+        <h2>Sabzi Bundle ₹199</h2>
+        <p>Tomato 1kg + Onion 1kg + Potato 1kg combo!</p>
+        <button class="btn-primary" onclick="addBundle()">Add Bundle</button>
+      </div>
+    </div>
+    <div class="daily-deals">
+      <h2>Today's <span>Flash Deals</span></h2>
+      <div class="flash-grid" id="flashDeals"></div>
+    </div>
+  </div>
+</div>
 
-// ── Customers ─────────────────────────────────────────────────────
-function renderCustomers() {
-  const users = getUsers();
-  document.getElementById('custCnt').textContent = users.length;
-  document.getElementById('custTbody').innerHTML = users.length
-    ? users.map(u=>`<tr>
-        <td><div style="width:33px;height:33px;border-radius:50%;background:var(--p);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700">${(u.name||u.email||'U')[0].toUpperCase()}</div></td>
-        <td><strong>${u.name||'-'}</strong></td><td>${u.email}</td><td>${u.phone||'-'}</td>
-        <td>${u.joined?new Date(u.joined).toLocaleDateString():'-'}</td>
-        <td><span class="bdg ${u.google?'bb':'bg'}">${u.google?'Google':'Email'}</span></td>
-      </tr>`).join('')
-    : '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:28px">No customers yet. They will appear here as customers sign up.</td></tr>';
-}
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: CONTACT
+════════════════════════════════════════════════════════════ -->
+<div id="page-contact" class="page">
+  <div class="page-hero contact-hero"><h1>📞 Contact Us</h1><p>We're always here to help!</p></div>
+  <div class="container contact-layout">
+    <div class="contact-info">
+      <h2>Get In Touch</h2>
+      <p>Have questions? Reach out through any of the channels below. We're open 6 AM – 9 PM, 7 days a week!</p>
+      <div class="contact-cards">
+        <div class="contact-card"><i class="fab fa-whatsapp" style="color:#25D366"></i><div><strong>WhatsApp</strong><a href="https://wa.me/919875165487" target="_blank">+919875165487</a></div></div>
+        <div class="contact-card"><i class="fas fa-phone" style="color:var(--primary)"></i><div><strong>Phone</strong><a href="tel:+919875165487">+919875165487</a></div></div>
+        <div class="contact-card"><i class="fas fa-map-marker-alt" style="color:#e74c3c"></i><div><strong>Shop Address</strong><span>12, Gandhi Market, Navrangpura, Ahmedabad – 380009</span></div></div>
+        <div class="contact-card"><i class="fas fa-clock" style="color:var(--orange)"></i><div><strong>Shop Hours</strong><span>Mon–Sat: 6 AM – 9 PM<br/>Sun: 6 AM – 2 PM</span></div></div>
+      </div>
+      <div class="social-links">
+        <a href="https://wa.me/919875165487" target="_blank" class="soc-btn whatsapp"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="soc-btn instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="soc-btn facebook"><i class="fab fa-facebook"></i></a>
+      </div>
+    </div>
+    <div class="contact-form-box">
+      <h2>Send a Message</h2>
+      <div class="form-group"><label>Your Name</label><input type="text" id="msgName" placeholder="Rahul Patel"/></div>
+      <div class="form-group"><label>Phone</label><input type="tel" id="msgPhone" placeholder="9875165487"/></div>
+      <div class="form-group"><label>Message</label><textarea id="msgText" rows="4" placeholder="Your question or feedback..."></textarea></div>
+      <button class="btn-whatsapp-order" onclick="sendContactMsg()"><i class="fab fa-whatsapp"></i> Send via WhatsApp</button>
+    </div>
+  </div>
+</div>
 
-// ── Orders ────────────────────────────────────────────────────────
-function renderOrders() {
-  const orders = getOrders();
-  document.getElementById('ordCnt').textContent = orders.length;
-  document.getElementById('ordTbody').innerHTML = orders.length
-    ? orders.slice().reverse().map((o,i)=>`<tr>
-        <td><strong>#${String(orders.length-i).padStart(4,'0')}</strong></td>
-        <td>${o.name||'Customer'}<br/><small style="color:var(--muted)">${o.phone||''}</small></td>
-        <td>${(o.items||[]).map(x=>`${x.emoji||''} ${x.name}`).join(', ').substring(0,40)||'—'}</td>
-        <td><strong style="color:var(--p)">₹${o.total||0}</strong></td>
-        <td>${o.date||'—'}</td>
-        <td><span class="bdg bg">WhatsApp</span></td>
-      </tr>`).join('')
-    : '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:28px">No orders yet. Orders appear here after customers place them.</td></tr>';
-}
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: ABOUT
+════════════════════════════════════════════════════════════ -->
+<div id="page-about" class="page">
+  <div class="page-hero about-hero"><h1>🌱 About Us</h1><p>Your trusted local vegetable &amp; fruit partner</p></div>
+  <div class="container">
+    <div class="about-layout">
+      <div class="about-text">
+        <div class="legacy-strip">🏆 Trusted Since 1994 · <strong>30+ Years of Freshness</strong></div>
+        <h2>Welcome to <span>Azad Vegetable and Fruits</span></h2>
+        <p>For over <strong>30 years</strong>, Azad Vegetable and Fruits has been a trusted name in Ahmedabad. Since 1994, we wake up before sunrise every day to handpick the freshest vegetables and fruits from local farms — so your family gets only the best.</p>
+        <p>What started as a small cart in Gandhi Market has grown into a beloved neighbourhood shop trusted by hundreds of Ahmedabad families across generations. Today, we bring that same 30-year commitment to freshness directly to your doorstep via WhatsApp!</p>
+        <div class="milestones">
+          <div class="milestone"><span>1994</span><small>Shop Founded</small></div>
+          <div class="milestone"><span>30+</span><small>Years of Service</small></div>
+          <div class="milestone"><span>500+</span><small>Happy Families</small></div>
+          <div class="milestone"><span>Daily</span><small>Fresh Stock</small></div>
+        </div>
+        <div class="about-values">
+          <div class="value-item"><i class="fas fa-seedling"></i><span>Farm Fresh</span></div>
+          <div class="value-item"><i class="fas fa-truck"></i><span>Fast Delivery</span></div>
+          <div class="value-item"><i class="fas fa-rupee-sign"></i><span>Best Prices</span></div>
+          <div class="value-item"><i class="fas fa-heart"></i><span>Local Love</span></div>
+        </div>
+      </div>
+      <div class="about-image-box">
+        <div class="about-emoji-grid">
+          <span>🥬</span><span>🍎</span><span>🥕</span>
+          <span>🍌</span><span>🥦</span><span>🍊</span>
+          <span>🍅</span><span>🥭</span><span>🍇</span>
+        </div>
+        <div class="about-cta">
+          <h3>Azad Vegetable and Fruits</h3>
+          <p>Proudly serving Ahmedabad since <strong>1994</strong></p>
+          <a href="https://wa.me/919875165487" target="_blank" class="btn-whatsapp-order"><i class="fab fa-whatsapp"></i> Chat with Us</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-// ── Analytics ─────────────────────────────────────────────────────
-function renderAnalytics() {
-  const stats=getStats(), users=getUsers(), orders=getOrders();
-  const rev=orders.reduce((s,o)=>s+(o.total||0),0);
-  document.getElementById('analyticsStats').innerHTML = `
-    <div class="sc g"><div class="sc-icon">📊</div><div class="sc-val">${stats.visitors.length}</div><div class="sc-lbl">Total Logins</div></div>
-    <div class="sc o"><div class="sc-icon">🛒</div><div class="sc-val">${orders.length}</div><div class="sc-lbl">Orders Placed</div></div>
-    <div class="sc b"><div class="sc-icon">💰</div><div class="sc-val">₹${rev.toLocaleString()}</div><div class="sc-lbl">Est. Revenue</div></div>
-    <div class="sc pu"><div class="sc-icon">👤</div><div class="sc-val">${users.length}</div><div class="sc-lbl">Registered Users</div></div>`;
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: PROFILE
+════════════════════════════════════════════════════════════ -->
+<div id="page-profile" class="page">
+  <div class="page-hero profile-hero"><h1>👤 My Profile</h1><p>Manage your details</p></div>
+  <div class="container">
+    <div class="profile-layout">
+      <div class="profile-card">
+        <div id="profilePhoto"></div>
+        <h2 id="profileName">Loading...</h2>
+        <p id="profilePhone"></p>
+        <div class="profile-form">
+          <h3>Update My Details</h3>
+          <div class="form-group"><label>Name</label><input type="text" id="pName" placeholder="Your name"/></div>
+          <div class="form-group"><label>Phone</label><input type="tel" id="pPhone" placeholder="Your phone"/></div>
+          <div class="form-group"><label>Default Address</label><textarea id="pAddress" rows="2" placeholder="Your delivery address"></textarea></div>
+          <button class="btn-primary" onclick="saveProfile()">Save Details</button>
+        </div>
+      </div>
+      <div class="profile-orders">
+        <h3>Quick Actions</h3>
+        <div class="quick-actions">
+          <button onclick="showPage('shop')"><i class="fas fa-carrot"></i> Shop Now</button>
+          <button onclick="showPage('cart')"><i class="fas fa-shopping-basket"></i> View Cart</button>
+          <button onclick="showPage('offers')"><i class="fas fa-tag"></i> Today's Offers</button>
+          <button onclick="showPage('contact')"><i class="fas fa-phone"></i> Contact Us</button>
+        </div>
+        <div class="loyalty-card">
+          <h3>🏅 Loyalty Points</h3>
+          <div class="loyalty-bar"><div class="loyalty-fill" style="width:40%"></div></div>
+          <p>40 / 100 points to next reward</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-  const dv=stats.dailyVisits||{}, dve=Object.entries(dv).slice(-7), mx=Math.max(...dve.map(e=>e[1]),1);
-  document.getElementById('dailyChart').innerHTML = dve.length
-    ? dve.map(([d,v])=>{const pct=Math.round((v/mx)*100);return `<div class="bar-row"><div class="bar-lbl" style="font-size:.7rem">${new Date(d).toLocaleDateString('en-IN',{weekday:'short',day:'numeric'})}</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%">${v}</div></div><div class="bar-val">${v}</div></div>`;}).join('')
-    : '<p style="color:var(--muted);font-size:.83rem">No visit data yet.</p>';
+<!-- ════════════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo"><span>🛒</span> Azad Fruits &amp; Veggies</div>
+      <p>Fresh vegetables &amp; fruits delivered to your door. Order via WhatsApp in minutes. Trusted since 1994.</p>
+      <a href="https://wa.me/919875165487" target="_blank" class="footer-wa"><i class="fab fa-whatsapp"></i> +919875165487</a>
+    </div>
+    <div class="footer-links">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a onclick="showPage('home')">Home</a></li>
+        <li><a onclick="showPage('shop')">Shop</a></li>
+        <li><a onclick="showPage('offers')">Offers</a></li>
+        <li><a onclick="showPage('about')">About</a></li>
+        <li><a onclick="showPage('contact')">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>Categories</h4>
+      <ul>
+        <li><a onclick="filterCategory('freshfruit')">🍎 Fresh Fruits</a></li>
+        <li><a onclick="filterCategory('leafy')">Leafy Greens</a></li>
+        <li><a onclick="filterCategory('root')">Root Veggies</a></li>
+        <li><a onclick="filterCategory('fruit')">Fruit Veggies</a></li>
+        <li><a onclick="filterCategory('herbs')">Herbs &amp; Spices</a></li>
+      </ul>
+    </div>
+    <div class="footer-contact">
+      <h4>Contact</h4>
+      <p><i class="fas fa-map-marker-alt"></i> Gandhi Market, Navrangpura, Ahmedabad</p>
+      <p><i class="fas fa-clock"></i> Mon–Sat: 6 AM – 9 PM · Sun: 6 AM – 2 PM</p>
+      <p><i class="fab fa-whatsapp"></i> +919875165487</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 Azad Vegetable and Fruits. Made with ❤️ in Ahmedabad · Trusted Since 1994</p>
+    <p style="margin-top:8px"><a href="admin.html" style="color:rgba(255,255,255,.3);font-size:.74rem">🔐 Admin Panel</a></p>
+  </div>
+</footer>
 
-  const top=[{n:"Potato",e:"🥔",v:87},{n:"Tomato",e:"🍅",v:74},{n:"Onion",e:"🧅",v:68},{n:"Apple",e:"🍎",v:62},{n:"Banana",e:"🍌",v:55},{n:"Coriander",e:"🪴",v:48}];
-  const mx2=Math.max(...top.map(t=>t.v));
-  document.getElementById('topSell').innerHTML = top.map(t=>{const pct=Math.round((t.v/mx2)*100);return `<div class="bar-row"><div class="bar-lbl" style="width:90px;font-size:.72rem">${t.e} ${t.n}</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:var(--orange)">${t.v}</div></div><div class="bar-val">${t.v} sold</div></div>`;}).join('');
-}
+<!-- Product Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+  <div class="product-modal" onclick="event.stopPropagation()" id="productModal">
+    <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+    <div id="modalContent"></div>
+  </div>
+</div>
 
-// ── Settings ──────────────────────────────────────────────────────
-function saveSettings() {
-  const s={shopName:document.getElementById('sName').value,ownerName:document.getElementById('sOwner').value,whatsapp:document.getElementById('sWA').value,phone:document.getElementById('sPhone').value,address:document.getElementById('sAddr').value,year:document.getElementById('sYear').value};
-  localStorage.setItem('azad_settings', JSON.stringify(s));
-  showToast('✅ Settings saved!','ok');
-}
+<!-- ── BOTTOM NAVIGATION BAR — Mobile only ── -->
+<nav class="bottom-nav" id="bottomNav">
+  <button class="bn-item active" id="bn-home" onclick="bnNav('home')">
+    <i class="fas fa-home"></i>
+    <span>Home</span>
+  </button>
+  <button class="bn-item" id="bn-shop" onclick="bnNav('shop')">
+    <i class="fas fa-store"></i>
+    <span>Shop</span>
+  </button>
+  <button class="bn-item bn-cart" id="bn-cart" onclick="bnNav('cart')">
+    <i class="fas fa-shopping-basket"></i>
+    <span class="bn-badge" id="bnBadge" style="display:none">0</span>
+  </button>
+  <button class="bn-item" id="bn-contact" onclick="bnNav('contact')">
+    <i class="fas fa-phone"></i>
+    <span>Contact</span>
+  </button>
+  <button class="bn-item" id="bn-profile" onclick="bnNav('profile')">
+    <i class="fas fa-user"></i>
+    <span>Profile</span>
+  </button>
+</nav>
 
-function changePass() {
-  const curr=document.getElementById('cPass').value, newP=document.getElementById('nPass').value, conf=document.getElementById('cfPass').value;
-  const c=JSON.parse(localStorage.getItem('azad_admin_c')||JSON.stringify(DEF_CREDS));
-  if (curr!==c.pass) { showToast('Current password is incorrect','err'); return; }
-  if (newP.length<6) { showToast('New password must be at least 6 characters','err'); return; }
-  if (newP!==conf)   { showToast('Passwords do not match','err'); return; }
-  c.pass=newP; localStorage.setItem('azad_admin_c',JSON.stringify(c));
-  showToast('✅ Password changed!','ok');
-  ['cPass','nPass','cfPass'].forEach(id=>document.getElementById(id).value='');
-}
+<!-- app.js loaded first (defines initShop etc.) -->
+<script src="app.js"></script>
 
-// ── Toast ─────────────────────────────────────────────────────────
-function showToast(msg,type='') {
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.className='toast show '+type;
-  clearTimeout(window._tt); window._tt=setTimeout(()=>t.className='toast',3200);
-}
-</script>
-
-<!-- Firebase module for Firestore price sync -->
+<!-- ════════════════════════════════════════════════════════════
+     FIREBASE MODULE
+     Auth guard + real-time price sync via Firestore onSnapshot
+════════════════════════════════════════════════════════════ -->
 <script type="module">
-import { initializeApp }  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { initializeApp }   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import {
-  getFirestore, doc, setDoc, onSnapshot, collection, getDocs,
+  getAuth, onAuthStateChanged, signOut,
+} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import {
+  getFirestore, doc, onSnapshot, setDoc, collection,
 } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 const firebaseConfig = {
@@ -732,50 +531,63 @@ const firebaseConfig = {
   measurementId:     "G-Z7T5N64R49",
 };
 
-const app = initializeApp(firebaseConfig);
-const db  = getFirestore(app);
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
 
-// ── Push prices to Firestore ────────────────────────────────────
-// When admin saves prices → writes to Firestore settings/prices doc
-// → onSnapshot on index.html fires → all customers see new prices instantly
-window._pushPricesToFirestore = async (prices) => {
-  try {
-    await setDoc(doc(db, 'settings', 'prices'), prices);
-    console.log('✅ Prices pushed to Firestore — all customers updated!');
-    document.getElementById('liveStatus').textContent = 'Prices synced ✅';
-  } catch(e) {
-    console.error('Firestore push failed:', e.message);
-    document.getElementById('liveStatus').textContent = 'Sync failed ⚠️';
-  }
+// Expose auth for logout button in app.js
+window._fbAuth = auth;
+
+// Expose Firestore order saver
+window._saveOrderFirestore = async (order) => {
+  try { await setDoc(doc(db, 'orders', order.id.toString()), order); }
+  catch(e) { console.warn('Order save to Firestore skipped:', e.message); }
 };
 
-// ── Load current prices from Firestore on page load ──────────────
-try {
-  const snap = await getDocs(collection(db, 'settings'));
-  snap.forEach(d => {
-    if (d.id === 'prices') {
-      localStorage.setItem('azad_prices', JSON.stringify(d.data()));
+// ── Auth Guard ────────────────────────────────────────────────────
+onAuthStateChanged(auth, user => {
+  if (!user) {
+    // Not logged in → go to login
+    window.location.href = 'auth.html';
+    return;
+  }
+  window._fbUser = user;
+  // Boot the shop (initShop is defined in app.js)
+  if (typeof window.initShop === 'function') window.initShop(user);
+
+  // ── Real-time price listener ──────────────────────────────────
+  // When admin saves prices in admin panel → Firestore is updated →
+  // this listener fires → product prices update instantly for ALL customers
+  const pricesRef = doc(db, 'settings', 'prices');
+  onSnapshot(pricesRef, snap => {
+    if (!snap.exists()) return;
+    const prices = snap.data();
+    // Update prices in the vegetables array
+    if (typeof vegetables !== 'undefined') {
+      let changed = false;
+      vegetables.forEach(v => {
+        if (prices[v.id] !== undefined && prices[v.id] !== v.price) {
+          v.price = prices[v.id];
+          changed = true;
+        }
+      });
+      // Save to localStorage so admin panel also reflects it
+      localStorage.setItem('azad_prices', JSON.stringify(prices));
+      // Re-render all product grids with new prices
+      if (changed) {
+        if (typeof renderFeatured  === 'function') renderFeatured();
+        if (typeof renderShopGrid  === 'function') renderShopGrid();
+        if (typeof renderFlashDeals=== 'function') renderFlashDeals();
+        if (typeof renderCartPage  === 'function') renderCartPage();
+        if (typeof renderCheckoutPage==='function') renderCheckoutPage();
+        if (typeof showToast === 'function') showToast('📢 Prices updated by admin!', 'success');
+      }
     }
+  }, err => {
+    // If Firestore rules block read, fall back to localStorage prices silently
+    console.warn('Firestore price sync:', err.message);
   });
-} catch(e) { console.warn('Could not load Firestore prices:', e.message); }
-
-// ── Load customers from Firestore ────────────────────────────────
-try {
-  const userSnap = await getDocs(collection(db, 'users'));
-  const users = [];
-  userSnap.forEach(d => users.push(d.data()));
-  if (users.length) localStorage.setItem('azad_users', JSON.stringify(users));
-} catch(e) { console.warn('Could not load Firestore users:', e.message); }
-
-// ── Load orders from Firestore ───────────────────────────────────
-try {
-  const ordSnap = await getDocs(collection(db, 'orders'));
-  const orders = [];
-  ordSnap.forEach(d => orders.push(d.data()));
-  if (orders.length) localStorage.setItem('azad_orders', JSON.stringify(orders));
-} catch(e) { console.warn('Could not load Firestore orders:', e.message); }
-
-document.getElementById('liveStatus').textContent = 'Firestore connected ✅';
+});
 </script>
 </body>
 </html>
