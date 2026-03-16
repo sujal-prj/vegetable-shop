@@ -368,7 +368,7 @@ td{padding:10px 13px;border-bottom:1px solid #f0f0f0;font-size:.86rem;color:#333
 <div class="inv">
   <div class="hdr">
     <div class="hdr-top">
-      <div><h2>🛒 Azad Vegetable and Fruits</h2><p>Gandhi Market, Navrangpura, Ahmedabad – 380009</p><p>WhatsApp: +91 98765 43210</p><div class="badge">⭐ Trusted Since 1994 · 30+ Years of Freshness</div></div>
+      <div><h2>🛒 Azad Vegetable and Fruits</h2><p>Gandhi Market, Navrangpura, Ahmedabad – 380009</p><p>WhatsApp: +919875165487</p><div class="badge">⭐ Trusted Since 1994 · 30+ Years of Freshness</div></div>
       <div class="num"><h3>INVOICE</h3><p>#${invNo}</p><p style="margin-top:5px">${dateStr}</p><p>${timeStr}</p></div>
     </div>
   </div>
@@ -384,7 +384,7 @@ td{padding:10px 13px;border-bottom:1px solid #f0f0f0;font-size:.86rem;color:#333
       <div class="tr big"><span>Total Amount</span><span>₹${total}</span></div>
     </div>
   </div>
-  <div class="ftr"><p>Thank you for shopping with <strong>Azad Vegetable and Fruits</strong>!</p><p>Fresh produce delivered daily since 1994 · 30+ years of trust 🏆</p><div class="wa">💬 +91 98765 43210</div></div>
+  <div class="ftr"><p>Thank you for shopping with <strong>Azad Vegetable and Fruits</strong>!</p><p>Fresh produce delivered daily since 1994 · 30+ years of trust 🏆</p><div class="wa">💬 +919875165487</div></div>
 </div>
 <br/><div style="text-align:center">
   <button onclick="window.print()" style="background:#2d7a22;color:#fff;border:none;padding:12px 26px;border-radius:10px;font-size:.97rem;font-weight:700;cursor:pointer;margin-right:9px">🖨️ Print / Save PDF</button>
