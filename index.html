@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Azad Vegetable and Fruits – Fresh Produce Delivered Today</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+<!-- ── NAVBAR ─────────────────────────────────────────────────── -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <div class="nav-logo" onclick="showPage('home')">
+      <span class="logo-icon">🛒</span>
+      <span class="logo-text">Azad Fruits &amp; Veggies</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a class="nav-link active" onclick="showPage('home')">Home</a></li>
+      <li><a class="nav-link" onclick="showPage('shop')">Shop</a></li>
+      <li><a class="nav-link" onclick="showPage('offers')">Offers</a></li>
+      <li><a class="nav-link" onclick="showPage('contact')">Contact</a></li>
+      <li><a class="nav-link" onclick="showPage('about')">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search veggies &amp; fruits..." id="searchInput" oninput="handleSearch()"/>
+      </div>
+      <button class="icon-btn nav-user-btn" onclick="showPage('profile')" title="My Profile">
+        <i class="fas fa-user"></i>
+        <span class="nav-user-name" id="navUserName"></span>
+      </button>
+      <button class="icon-btn cart-btn" onclick="showPage('cart')" title="Cart">
+        <i class="fas fa-shopping-basket"></i>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+      <button class="icon-btn logout-btn" onclick="logoutUser()" title="Logout">
+        <i class="fas fa-sign-out-alt"></i>
+      </button>
+      <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: HOME
+════════════════════════════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="hero-blob blob1"></div>
+      <div class="hero-blob blob2"></div>
+      <div class="hero-blob blob3"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-tag"><i class="fas fa-leaf"></i> Farm Fresh Daily</div>
+      <div class="hero-legacy-banner">🏆 <strong>30+ Years of Trust</strong> — Serving Ahmedabad since 1994</div>
+      <h1 class="hero-title">Fresh Vegetables &amp; Fruits<br/><span>Delivered Today</span></h1>
+      <p class="hero-subtitle">Order directly from <strong>Azad Vegetable and Fruits</strong> — your trusted neighbourhood shop since 1994. Farm-fresh produce to your doorstep via WhatsApp!</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('shop')"><i class="fas fa-carrot"></i> Shop Now</button>
+        <button class="btn-outline" onclick="scrollToSection('how-it-works')"><i class="fas fa-play-circle"></i> How it Works</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span>500+</span><small>Happy Customers</small></div>
+        <div class="stat"><span>70+</span><small>Veggies &amp; Fruits</small></div>
+        <div class="stat"><span>30+</span><small>Years of Service</small></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="veggie-circle">
+        <div class="veggie-orbit orbit1"><span class="veggie-emoji">🍎</span></div>
+        <div class="veggie-orbit orbit2"><span class="veggie-emoji">🥕</span></div>
+        <div class="veggie-orbit orbit3"><span class="veggie-emoji">🍌</span></div>
+        <div class="center-veggie">🛒</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Marquee -->
+  <div class="marquee-strip">
+    <div class="marquee-track">
+      <span>🍅 टमाटर</span><span>🍎 सेब</span><span>🥕 गाजर</span><span>🍌 केला</span><span>🧅 प्याज</span><span>🍇 अंगूर</span><span>🥔 आलू</span><span>🍊 संतरा</span><span>🥬 पालक</span><span>🍉 तरबूज</span><span>🧄 लहसुन</span><span>🥭 आम</span><span>🍆 बैंगन</span><span>🍋 नींबू</span><span>🫑 शिमला मिर्च</span><span>🥦 ब्रोकली</span>
+      <span>🍅 टमाटर</span><span>🍎 सेब</span><span>🥕 गाजर</span><span>🍌 केला</span><span>🧅 प्याज</span><span>🍇 अंगूर</span><span>🥔 आलू</span><span>🍊 संतरा</span><span>🥬 पालक</span><span>🍉 तरबूज</span><span>🧄 लहसुन</span><span>🥭 आम</span><span>🍆 बैंगन</span><span>🍋 नींबू</span><span>🫑 शिमला मिर्च</span><span>🥦 ब्रोकली</span>
+    </div>
+  </div>
+
+  <!-- Categories -->
+  <section class="section" id="categories">
+    <div class="container">
+      <div class="section-head">
+        <h2>Shop by <span>Category</span></h2>
+        <p>Browse our wide collection of farm-fresh vegetables &amp; fruits</p>
+      </div>
+      <div class="categories-grid">
+        <div class="cat-card" onclick="filterCategory('freshfruit')"><div class="cat-icon">🍎</div><h3>Fresh Fruits</h3><p>सेब, केला, आम, अंगूर</p></div>
+        <div class="cat-card" onclick="filterCategory('leafy')"><div class="cat-icon">🥬</div><h3>Leafy Greens</h3><p>पालक, मेथी, धनिया</p></div>
+        <div class="cat-card" onclick="filterCategory('root')"><div class="cat-icon">🥕</div><h3>Root Veggies</h3><p>आलू, गाजर, मूली</p></div>
+        <div class="cat-card" onclick="filterCategory('fruit')"><div class="cat-icon">🍅</div><h3>Fruit Veggies</h3><p>टमाटर, बैंगन, शिमला मिर्च</p></div>
+        <div class="cat-card" onclick="filterCategory('exotic')"><div class="cat-icon">🥦</div><h3>Exotic Veggies</h3><p>ब्रोकली, मशरूम, बेबी कॉर्न</p></div>
+        <div class="cat-card" onclick="filterCategory('herbs')"><div class="cat-icon">🌿</div><h3>Herbs &amp; Spices</h3><p>लहसुन, अदरक, हरी मिर्च</p></div>
+        <div class="cat-card" onclick="filterCategory('all')"><div class="cat-icon">🛒</div><h3>All Items</h3><p>सभी सब्जियां व फल देखें</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured -->
+  <section class="section bg-light" id="featured">
+    <div class="container">
+      <div class="section-head"><h2>Today's <span>Fresh Picks</span></h2><p>Handpicked freshness delivered to you</p></div>
+      <div class="products-grid" id="featuredGrid"></div>
+      <div class="center-btn">
+        <button class="btn-primary" onclick="showPage('shop')">View All Vegetables &amp; Fruits <i class="fas fa-arrow-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="section" id="how-it-works">
+    <div class="container">
+      <div class="section-head"><h2>How It <span>Works</span></h2><p>Order fresh produce in 3 simple steps</p></div>
+      <div class="steps-grid">
+        <div class="step-card"><div class="step-num">01</div><div class="step-icon">🛒</div><h3>Add to Cart</h3><p>Browse vegetables &amp; fruits, choose quantity, and add to your cart easily.</p></div>
+        <div class="step-divider"><i class="fas fa-arrow-right"></i></div>
+        <div class="step-card"><div class="step-num">02</div><div class="step-icon">📝</div><h3>Fill Details</h3><p>Enter your name, phone number, and delivery address.</p></div>
+        <div class="step-divider"><i class="fas fa-arrow-right"></i></div>
+        <div class="step-card"><div class="step-num">03</div><div class="step-icon">💬</div><h3>Order on WhatsApp</h3><p>Your complete order is sent directly to our WhatsApp!</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section bg-green">
+    <div class="container">
+      <div class="section-head light"><h2>What Our <span>Customers Say</span></h2></div>
+      <div class="testimonials-grid">
+        <div class="testi-card"><div class="testi-stars">⭐⭐⭐⭐⭐</div><p>"Best vegetables and fruits in Ahmedabad! Super fresh and delivered on time. Azad shop ka quality ekdum top hai!"</p><div class="testi-author"><div class="testi-avatar">R</div><div><strong>Riya Shah</strong><small>Navrangpura</small></div></div></div>
+        <div class="testi-card"><div class="testi-stars">⭐⭐⭐⭐⭐</div><p>"I order every week from Azad. The quality is consistent and prices are very reasonable. 30 years mein kya quality maintain ki hai!"</p><div class="testi-author"><div class="testi-avatar">M</div><div><strong>Mohit Patel</strong><small>Vastrapur</small></div></div></div>
+        <div class="testi-card"><div class="testi-stars">⭐⭐⭐⭐⭐</div><p>"The website is so easy to use. Add items, fill address, click WhatsApp — order placed in 2 minutes. Amazing service!"</p><div class="testi-author"><div class="testi-avatar">P</div><div><strong>Priya Mehta</strong><small>Bopal</small></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="section">
+    <div class="container">
+      <div class="newsletter-box">
+        <div class="nl-content"><h2>Get Daily <span>Fresh Deals</span></h2><p>Save our WhatsApp number and get daily fresh veggie &amp; fruit updates</p></div>
+        <div class="nl-action"><a href="https://wa.me/919875165487?text=Hi! Please add me to your daily deals list 🛒" target="_blank" class="btn-whatsapp-lg"><i class="fab fa-whatsapp"></i> Save on WhatsApp</a></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: SHOP
+════════════════════════════════════════════════════════════ -->
+<div id="page-shop" class="page">
+  <div class="page-hero shop-hero"><h1>🥦🍎 Vegetables &amp; Fruits</h1><p>Farm fresh, handpicked daily for you</p></div>
+  <div class="container shop-layout">
+    <aside class="sidebar">
+      <div class="filter-box">
+        <h3><i class="fas fa-filter"></i> Filter</h3>
+        <div class="filter-group">
+          <label>Category</label>
+          <select id="filterSelect" onchange="applyFilters()">
+            <option value="all">All Categories</option>
+            <option value="freshfruit">🍎 Fresh Fruits</option>
+            <option value="leafy">Leafy Greens</option>
+            <option value="root">Root Veggies</option>
+            <option value="fruit">Fruit Veggies</option>
+            <option value="exotic">Exotic Veggies</option>
+            <option value="herbs">Herbs &amp; Spices</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Sort By</label>
+          <select id="sortSelect" onchange="applyFilters()">
+            <option value="default">Default</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="name">Name A–Z</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Max Price: ₹<span id="priceVal">300</span></label>
+          <input type="range" min="10" max="300" value="300" id="priceRange" oninput="updatePrice(this.value);applyFilters()"/>
+        </div>
+        <button class="btn-sm" onclick="resetFilters()">Reset Filters</button>
+      </div>
+      <div class="sidebar-promo">
+        <div class="promo-badge">🎉 OFFER</div>
+        <p>Get 10% off on orders above ₹500!</p>
+        <small>Use code: FRESH10</small>
+      </div>
+    </aside>
+    <div class="shop-main">
+      <div class="shop-toolbar">
+        <span id="productCount">Showing all products</span>
+        <div class="view-toggle">
+          <button onclick="setView('grid')" id="gridBtn" class="view-btn active"><i class="fas fa-th"></i></button>
+          <button onclick="setView('list')" id="listBtn" class="view-btn"><i class="fas fa-list"></i></button>
+        </div>
+      </div>
+      <div class="products-grid" id="shopGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: CART
+════════════════════════════════════════════════════════════ -->
+<div id="page-cart" class="page">
+  <div class="page-hero cart-hero"><h1>🛒 Your Cart</h1><p>Review your order before checkout</p></div>
+  <div class="container cart-layout">
+    <div class="cart-items-section"><div id="cartItems"></div></div>
+    <div class="cart-summary-box">
+      <h3>Order Summary</h3>
+      <div class="summary-lines" id="summaryLines"></div>
+      <div class="summary-divider"></div>
+      <div class="summary-total" id="summaryTotal"></div>
+      <div class="promo-input">
+        <input type="text" placeholder="Promo code" id="promoCode"/>
+        <button onclick="applyPromo()">Apply</button>
+      </div>
+      <button class="btn-checkout" onclick="showPage('checkout')"><i class="fas fa-lock"></i> Proceed to Checkout</button>
+      <button class="btn-continue" onclick="showPage('shop')"><i class="fas fa-arrow-left"></i> Continue Shopping</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: CHECKOUT
+════════════════════════════════════════════════════════════ -->
+<div id="page-checkout" class="page">
+  <div class="page-hero checkout-hero"><h1>📝 Checkout</h1><p>Fill your details to place the order</p></div>
+  <div class="container checkout-layout">
+    <div class="checkout-form-box">
+      <h3><i class="fas fa-user"></i> Delivery Details</h3>
+      <div class="form-row">
+        <div class="form-group"><label>Full Name *</label><input type="text" id="custName" placeholder="e.g. Rahul Patel"/></div>
+        <div class="form-group"><label>Phone Number *</label><input type="tel" id="custPhone" placeholder="e.g. 9875165487"/></div>
+      </div>
+      <div class="form-group"><label>Delivery Address *</label><textarea id="custAddress" placeholder="e.g. 23 Gandhi Nagar, Navrangpura, Ahmedabad" rows="3"></textarea></div>
+      <div class="form-row">
+        <div class="form-group"><label>City</label><input type="text" id="custCity" placeholder="Ahmedabad" value="Ahmedabad"/></div>
+        <div class="form-group"><label>Pincode</label><input type="text" id="custPin" placeholder="380009"/></div>
+      </div>
+      <div class="form-group">
+        <label>Delivery Time Preference</label>
+        <select id="custTime">
+          <option>Morning (7 AM – 10 AM)</option>
+          <option>Afternoon (12 PM – 3 PM)</option>
+          <option>Evening (5 PM – 8 PM)</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Special Instructions (optional)</label><textarea id="custNote" placeholder="e.g. Leave at door, call before delivery" rows="2"></textarea></div>
+    </div>
+    <div class="checkout-order-box">
+      <h3><i class="fas fa-receipt"></i> Order Review</h3>
+      <div id="checkoutItems"></div>
+      <div class="checkout-total" id="checkoutTotal"></div>
+      <div class="payment-info"><i class="fab fa-whatsapp" style="color:#25D366"></i><p>Your order will be sent to WhatsApp. Payment on delivery accepted.</p></div>
+      <button class="btn-whatsapp-order" onclick="placeOrder()"><i class="fab fa-whatsapp"></i> Place Order on WhatsApp</button>
+      <button class="btn-invoice" onclick="generateInvoice()"><i class="fas fa-file-invoice"></i> Download Invoice</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: OFFERS
+════════════════════════════════════════════════════════════ -->
+<div id="page-offers" class="page">
+  <div class="page-hero offers-hero"><h1>🎉 Special Offers</h1><p>Best deals on fresh vegetables &amp; fruits today!</p></div>
+  <div class="container">
+    <div class="offers-grid">
+      <div class="offer-card big">
+        <div class="offer-badge">FLAT 20% OFF</div>
+        <h2>Weekend Special!</h2>
+        <p>Get 20% off on all leafy greens &amp; seasonal fruits every Saturday &amp; Sunday</p>
+        <button class="btn-primary" onclick="filterCategory('freshfruit')">Shop Fruits</button>
+      </div>
+      <div class="offer-card">
+        <div class="offer-badge">FREE DELIVERY</div>
+        <h2>Order Above ₹300</h2>
+        <p>Free delivery on all orders above ₹300</p>
+        <button class="btn-primary" onclick="showPage('shop')">Shop Now</button>
+      </div>
+      <div class="offer-card">
+        <div class="offer-badge">FRUIT BUNDLE</div>
+        <h2>Fruit Basket ₹249</h2>
+        <p>Banana 1 dozen + Apple 500g + Orange 4 pcs combo!</p>
+        <button class="btn-primary" onclick="addFruitBundle()">Add Bundle</button>
+      </div>
+      <div class="offer-card">
+        <div class="offer-badge">SABZI BUNDLE</div>
+        <h2>Sabzi Bundle ₹199</h2>
+        <p>Tomato 1kg + Onion 1kg + Potato 1kg combo!</p>
+        <button class="btn-primary" onclick="addBundle()">Add Bundle</button>
+      </div>
+    </div>
+    <div class="daily-deals">
+      <h2>Today's <span>Flash Deals</span></h2>
+      <div class="flash-grid" id="flashDeals"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: CONTACT
+════════════════════════════════════════════════════════════ -->
+<div id="page-contact" class="page">
+  <div class="page-hero contact-hero"><h1>📞 Contact Us</h1><p>We're always here to help!</p></div>
+  <div class="container contact-layout">
+    <div class="contact-info">
+      <h2>Get In Touch</h2>
+      <p>Have questions? Reach out through any of the channels below. We're open 6 AM – 9 PM, 7 days a week!</p>
+      <div class="contact-cards">
+        <div class="contact-card"><i class="fab fa-whatsapp" style="color:#25D366"></i><div><strong>WhatsApp</strong><a href="https://wa.me/919875165487" target="_blank">+91 98765 43210</a></div></div>
+        <div class="contact-card"><i class="fas fa-phone" style="color:var(--primary)"></i><div><strong>Phone</strong><a href="tel:+919875165487">+91 98765 43210</a></div></div>
+        <div class="contact-card"><i class="fas fa-map-marker-alt" style="color:#e74c3c"></i><div><strong>Shop Address</strong><span>12, Gandhi Market, Navrangpura, Ahmedabad – 380009</span></div></div>
+        <div class="contact-card"><i class="fas fa-clock" style="color:var(--orange)"></i><div><strong>Shop Hours</strong><span>Mon–Sat: 6 AM – 9 PM<br/>Sun: 6 AM – 2 PM</span></div></div>
+      </div>
+      <div class="social-links">
+        <a href="https://wa.me/919875165487" target="_blank" class="soc-btn whatsapp"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="soc-btn instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="soc-btn facebook"><i class="fab fa-facebook"></i></a>
+      </div>
+    </div>
+    <div class="contact-form-box">
+      <h2>Send a Message</h2>
+      <div class="form-group"><label>Your Name</label><input type="text" id="msgName" placeholder="Rahul Patel"/></div>
+      <div class="form-group"><label>Phone</label><input type="tel" id="msgPhone" placeholder="9875165487"/></div>
+      <div class="form-group"><label>Message</label><textarea id="msgText" rows="4" placeholder="Your question or feedback..."></textarea></div>
+      <button class="btn-whatsapp-order" onclick="sendContactMsg()"><i class="fab fa-whatsapp"></i> Send via WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: ABOUT
+════════════════════════════════════════════════════════════ -->
+<div id="page-about" class="page">
+  <div class="page-hero about-hero"><h1>🌱 About Us</h1><p>Your trusted local vegetable &amp; fruit partner</p></div>
+  <div class="container">
+    <div class="about-layout">
+      <div class="about-text">
+        <div class="legacy-strip">🏆 Trusted Since 1994 · <strong>30+ Years of Freshness</strong></div>
+        <h2>Welcome to <span>Azad Vegetable and Fruits</span></h2>
+        <p>For over <strong>30 years</strong>, Azad Vegetable and Fruits has been a trusted name in Ahmedabad. Since 1994, we wake up before sunrise every day to handpick the freshest vegetables and fruits from local farms — so your family gets only the best.</p>
+        <p>What started as a small cart in Gandhi Market has grown into a beloved neighbourhood shop trusted by hundreds of Ahmedabad families across generations. Today, we bring that same 30-year commitment to freshness directly to your doorstep via WhatsApp!</p>
+        <div class="milestones">
+          <div class="milestone"><span>1994</span><small>Shop Founded</small></div>
+          <div class="milestone"><span>30+</span><small>Years of Service</small></div>
+          <div class="milestone"><span>500+</span><small>Happy Families</small></div>
+          <div class="milestone"><span>Daily</span><small>Fresh Stock</small></div>
+        </div>
+        <div class="about-values">
+          <div class="value-item"><i class="fas fa-seedling"></i><span>Farm Fresh</span></div>
+          <div class="value-item"><i class="fas fa-truck"></i><span>Fast Delivery</span></div>
+          <div class="value-item"><i class="fas fa-rupee-sign"></i><span>Best Prices</span></div>
+          <div class="value-item"><i class="fas fa-heart"></i><span>Local Love</span></div>
+        </div>
+      </div>
+      <div class="about-image-box">
+        <div class="about-emoji-grid">
+          <span>🥬</span><span>🍎</span><span>🥕</span>
+          <span>🍌</span><span>🥦</span><span>🍊</span>
+          <span>🍅</span><span>🥭</span><span>🍇</span>
+        </div>
+        <div class="about-cta">
+          <h3>Azad Vegetable and Fruits</h3>
+          <p>Proudly serving Ahmedabad since <strong>1994</strong></p>
+          <a href="https://wa.me/919875165487" target="_blank" class="btn-whatsapp-order"><i class="fab fa-whatsapp"></i> Chat with Us</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: PROFILE
+════════════════════════════════════════════════════════════ -->
+<div id="page-profile" class="page">
+  <div class="page-hero profile-hero"><h1>👤 My Profile</h1><p>Manage your details</p></div>
+  <div class="container">
+    <div class="profile-layout">
+      <div class="profile-card">
+        <div id="profilePhoto"></div>
+        <h2 id="profileName">Loading...</h2>
+        <p id="profilePhone"></p>
+        <div class="profile-form">
+          <h3>Update My Details</h3>
+          <div class="form-group"><label>Name</label><input type="text" id="pName" placeholder="Your name"/></div>
+          <div class="form-group"><label>Phone</label><input type="tel" id="pPhone" placeholder="Your phone"/></div>
+          <div class="form-group"><label>Default Address</label><textarea id="pAddress" rows="2" placeholder="Your delivery address"></textarea></div>
+          <button class="btn-primary" onclick="saveProfile()">Save Details</button>
+        </div>
+      </div>
+      <div class="profile-orders">
+        <h3>Quick Actions</h3>
+        <div class="quick-actions">
+          <button onclick="showPage('shop')"><i class="fas fa-carrot"></i> Shop Now</button>
+          <button onclick="showPage('cart')"><i class="fas fa-shopping-basket"></i> View Cart</button>
+          <button onclick="showPage('offers')"><i class="fas fa-tag"></i> Today's Offers</button>
+          <button onclick="showPage('contact')"><i class="fas fa-phone"></i> Contact Us</button>
+        </div>
+        <div class="loyalty-card">
+          <h3>🏅 Loyalty Points</h3>
+          <div class="loyalty-bar"><div class="loyalty-fill" style="width:40%"></div></div>
+          <p>40 / 100 points to next reward</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo"><span>🛒</span> Azad Fruits &amp; Veggies</div>
+      <p>Fresh vegetables &amp; fruits delivered to your door. Order via WhatsApp in minutes. Trusted since 1994.</p>
+      <a href="https://wa.me/919875165487" target="_blank" class="footer-wa"><i class="fab fa-whatsapp"></i> +91 98765 43210</a>
+    </div>
+    <div class="footer-links">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a onclick="showPage('home')">Home</a></li>
+        <li><a onclick="showPage('shop')">Shop</a></li>
+        <li><a onclick="showPage('offers')">Offers</a></li>
+        <li><a onclick="showPage('about')">About</a></li>
+        <li><a onclick="showPage('contact')">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>Categories</h4>
+      <ul>
+        <li><a onclick="filterCategory('freshfruit')">🍎 Fresh Fruits</a></li>
+        <li><a onclick="filterCategory('leafy')">Leafy Greens</a></li>
+        <li><a onclick="filterCategory('root')">Root Veggies</a></li>
+        <li><a onclick="filterCategory('fruit')">Fruit Veggies</a></li>
+        <li><a onclick="filterCategory('herbs')">Herbs &amp; Spices</a></li>
+      </ul>
+    </div>
+    <div class="footer-contact">
+      <h4>Contact</h4>
+      <p><i class="fas fa-map-marker-alt"></i> Gandhi Market, Navrangpura, Ahmedabad</p>
+      <p><i class="fas fa-clock"></i> Mon–Sat: 6 AM – 9 PM · Sun: 6 AM – 2 PM</p>
+      <p><i class="fab fa-whatsapp"></i> +91 98765 43210</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 Azad Vegetable and Fruits. Made with ❤️ in Ahmedabad · Trusted Since 1994</p>
+    <p style="margin-top:8px"><a href="admin.html" style="color:rgba(255,255,255,.3);font-size:.74rem">🔐 Admin Panel</a></p>
+  </div>
+</footer>
+
+<!-- Product Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+  <div class="product-modal" onclick="event.stopPropagation()" id="productModal">
+    <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<!-- app.js loaded first (defines initShop etc.) -->
+<script src="app.js"></script>
+
+<!-- ════════════════════════════════════════════════════════════
+     FIREBASE MODULE
+     Auth guard + real-time price sync via Firestore onSnapshot
+════════════════════════════════════════════════════════════ -->
+<script type="module">
+import { initializeApp }   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import {
+  getAuth, onAuthStateChanged, signOut,
+} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import {
+  getFirestore, doc, onSnapshot, setDoc, collection,
+} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey:            "AIzaSyBADzvyqXCOUNz4Yfu5OgJhxGzzobj6lK0",
+  authDomain:        "azad-vegetable-fruits.firebaseapp.com",
+  projectId:         "azad-vegetable-fruits",
+  storageBucket:     "azad-vegetable-fruits.firebasestorage.app",
+  messagingSenderId: "898363326802",
+  appId:             "1:898363326802:web:bb21b0eb86724087e57a8b",
+  measurementId:     "G-Z7T5N64R49",
+};
+
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+
+// Expose auth for logout button in app.js
+window._fbAuth = auth;
+
+// Expose Firestore order saver
+window._saveOrderFirestore = async (order) => {
+  try { await setDoc(doc(db, 'orders', order.id.toString()), order); }
+  catch(e) { console.warn('Order save to Firestore skipped:', e.message); }
+};
+
+// ── Auth Guard ────────────────────────────────────────────────────
+onAuthStateChanged(auth, user => {
+  if (!user) {
+    // Not logged in → go to login
+    window.location.href = 'auth.html';
+    return;
+  }
+  window._fbUser = user;
+  // Boot the shop (initShop is defined in app.js)
+  if (typeof window.initShop === 'function') window.initShop(user);
+
+  // ── Real-time price listener ──────────────────────────────────
+  // When admin saves prices in admin panel → Firestore is updated →
+  // this listener fires → product prices update instantly for ALL customers
+  const pricesRef = doc(db, 'settings', 'prices');
+  onSnapshot(pricesRef, snap => {
+    if (!snap.exists()) return;
+    const prices = snap.data();
+    // Update prices in the vegetables array
+    if (typeof vegetables !== 'undefined') {
+      let changed = false;
+      vegetables.forEach(v => {
+        if (prices[v.id] !== undefined && prices[v.id] !== v.price) {
+          v.price = prices[v.id];
+          changed = true;
+        }
+      });
+      // Save to localStorage so admin panel also reflects it
+      localStorage.setItem('azad_prices', JSON.stringify(prices));
+      // Re-render all product grids with new prices
+      if (changed) {
+        if (typeof renderFeatured  === 'function') renderFeatured();
+        if (typeof renderShopGrid  === 'function') renderShopGrid();
+        if (typeof renderFlashDeals=== 'function') renderFlashDeals();
+        if (typeof renderCartPage  === 'function') renderCartPage();
+        if (typeof renderCheckoutPage==='function') renderCheckoutPage();
+        if (typeof showToast === 'function') showToast('📢 Prices updated by admin!', 'success');
+      }
+    }
+  }, err => {
+    // If Firestore rules block read, fall back to localStorage prices silently
+    console.warn('Firestore price sync:', err.message);
+  });
+});
+</script>
+</body>
+</html>
