@@ -306,7 +306,7 @@ ${note?`📝 Note: ${note}`:''}
 
 ✅ Payment on delivery. Please confirm! 🙏`;
 
-  window.open(`https://wa.me/919876543210?text=${encodeURIComponent(msg)}`, '_blank');
+  window.open(`https://wa.me/919875165487?text=${encodeURIComponent(msg)}`, '_blank');
   showToast('🎉 Opening WhatsApp!', 'success');
   // Save order record
   saveOrderRecord(name, phone, address, cart, total);
@@ -526,7 +526,7 @@ function sendContactMsg() {
   const text  = document.getElementById('msgText')?.value.trim();
   if (!name||!text) { showToast('⚠️ Please fill all fields','error'); return; }
   const msg = `Hi Azad Bhai! 👋\n\nMy name is ${name}${phone?' ('+phone+')':''} .\n\n${text}\n\nThank you!`;
-  window.open(`https://wa.me/919876543210?text=${encodeURIComponent(msg)}`,'_blank');
+  window.open(`https://wa.me/919875165487?text=${encodeURIComponent(msg)}`,'_blank');
 }
 
 // ── Profile ──────────────────────────────────────────────────────
